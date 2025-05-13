@@ -17,7 +17,7 @@ public class AudioViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
         playButton = itemView.findViewById(R.id.play_button);
         timeText = itemView.findViewById(R.id.audio_time);
-
+//
         playButton.setOnClickListener(v -> {
             if (mediaPlayer == null) {
                 mediaPlayer = MediaPlayer.create(itemView.getContext(), R.raw.nota_voz);
