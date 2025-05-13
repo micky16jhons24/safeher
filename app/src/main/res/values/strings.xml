@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">SafeHer</string>
+    <string name="logo_app">Logo de la app</string>
+    <string name="titulo_app">Empieza con S.A.F.E.HER</string>
+    <string name="email_label">Correo</string>
+    <string name="email_hint">Introduce tu email</string>
+    <string name="password_label">Contraseña</string>
+    <string name="password_hint">Introduce tu contraseña</string>
+    <string name="continuar">Continuar</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="seleccionar_pais">Selecciona tu país</string>
+
+    <string name="google_maps_key">AIzaSyCp6_Tg-yn4nh1JGZe-Cy4wyaD9K6wFTDU</string>
+
+    <string-array name="countries_array">
+        <item>España</item>
+        <item>Francia</item>
+        <item>Alemania</item>
+        <item>Reino Unido</item>
+    </string-array>
+</resources>

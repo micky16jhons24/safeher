@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Mapa OSMDroid -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- UI flotante encima del mapa -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@android:color/transparent">
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/icono"
+            android:contentDescription="@string/logo_app"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="16dp" />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tituloInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S.A.F.E. Her"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/logoImage"
+            app:layout_constraintStart_toStartOf="@id/logoImage"
+            android:layout_marginTop="4dp" />
+
+        <!-- Botón: Safe Call (inferior izquierda) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSafeCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_phone_24"
+            android:contentDescription="Safe Call"
+            app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp" />
+
+        <!-- Botón: Ver Mapa (inferior derecha) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnVerMapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_map_24"
+            android:contentDescription="Ver Mapa"
+            app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp" />
+
+        <!-- Botón: Salida Rápida (encima del mapa) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSalirRapido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_warning_24"
+            android:contentDescription="Salida Rápida"
+            app:backgroundTint="#D32F2F"
+            app:tint="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@id/btnVerMapa"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp" />
+
+        <!-- Botón: Viaje Seguro (centro inferior) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViajeSeguro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Viaje Seguro"
+            app:cornerRadius="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="90dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

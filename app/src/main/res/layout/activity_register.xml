@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FAFAFA">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:contentDescription="Formulario de registro"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registro de Usuaria"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#3F51B5"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Datos de cuenta -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Datos de cuenta"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                style="@style/CustomInput"
+                android:hint="Email"
+                android:inputType="textEmailAddress"/>
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                style="@style/CustomInput"
+                android:hint="Contraseña"
+                android:inputType="textPassword"/>
+
+            <!-- Datos personales -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Datos personales"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/editTextDni"
+                style="@style/CustomInput"
+                android:hint="DNI"/>
+
+            <EditText
+                android:id="@+id/editTextNombre"
+                style="@style/CustomInput"
+                android:hint="Nombre"/>
+
+            <EditText
+                android:id="@+id/editTextApellido"
+                style="@style/CustomInput"
+                android:hint="Apellido"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroupGenero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <RadioButton
+                    android:id="@+id/radioMujer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mujer"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/radioOtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Otro"/>
+            </RadioGroup>
+
+            <!-- Dirección -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dirección"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerPais"
+                style="@style/CustomSpinner"/>
+
+            <Spinner
+                android:id="@+id/spinnerCiudad"
+                style="@style/CustomSpinner"/>
+
+            <EditText
+                android:id="@+id/editTextDireccion"
+                style="@style/CustomInput"
+                android:hint="Dirección"/>
+
+            <EditText
+                android:id="@+id/editTextPortal"
+                style="@style/CustomInput"
+                android:hint="Portal"/>
+
+            <EditText
+                android:id="@+id/editTextPiso"
+                style="@style/CustomInput"
+                android:hint="Piso"/>
+
+            <EditText
+                android:id="@+id/editTextPuerta"
+                style="@style/CustomInput"
+                android:hint="Puerta"/>
+
+            <EditText
+                android:id="@+id/editTextPhone"
+                style="@style/CustomInput"
+                android:hint="Teléfono"
+                android:inputType="phone"/>
+
+            <EditText
+                android:id="@+id/editTextCodigoPostal"
+                style="@style/CustomInput"
+                android:hint="Código Postal"
+                android:inputType="number"/>
+
+            <!-- Botones -->
+            <Button
+                android:id="@+id/btnUploadDni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subir foto del DNI"
+                android:layout_marginTop="16dp"/>
+
+            <Button
+                android:id="@+id/btnRegistrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registrar"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#3F51B5"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

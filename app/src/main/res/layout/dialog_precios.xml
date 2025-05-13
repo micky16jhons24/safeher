@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tituloDialogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tarifas de Viaje Seguro"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp" />
+
+    <TextView
+        android:id="@+id/precio1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Viaje corto: 5€"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/precio2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Viaje medio: 10€"
+        android:paddingBottom="8dp" />
+
+    <TextView
+        android:id="@+id/precio3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="• Viaje largo: 15€" />
+
+</LinearLayout>
