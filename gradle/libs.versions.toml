@@ -13,6 +13,7 @@ espresso = "3.5.1"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+googleServices = { id = "com.google.gms.google-services", version = "4.4.1" }
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
