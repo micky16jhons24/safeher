@@ -10,10 +10,12 @@ room = "2.6.1"
 junit = "4.13.2"
 extjunit = "1.1.5"
 espresso = "3.5.1"
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 googleServices = { id = "com.google.gms.google-services", version = "4.4.1" }
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
