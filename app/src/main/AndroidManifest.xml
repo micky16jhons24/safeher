@@ -24,12 +24,18 @@
         <!-- Clave de la API de Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw" />
 
         <!-- Preloaded fonts opcional -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <!-- Actividad del mapa (si la usas) -->
+        <activity
+            android:name=".MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
 
         <!-- Actividad principal -->
         <activity
@@ -44,10 +50,10 @@
         <!-- Actividad de registro -->
         <activity android:name=".RegisterActivity" />
 
-        <!-- Actividad del mapa -->
+        <!-- Actividad de inicio con el mapa y botones -->
         <activity android:name=".PantallaInicio.Inicio" />
 
-        <!-- Actividad del chat (Fake Whatsapp) -->
+        <!-- Actividad del chat -->
         <activity android:name=".ChatActivity" />
 
     </application>
