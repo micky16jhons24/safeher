@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
-    //   id 'com.google.gms.google-services'
+    // id 'com.google.gms.google-services' // si no usas Firebase, puede quedarse comentado
 }
 
 android {
@@ -28,6 +28,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     buildFeatures {
         viewBinding true
     }
@@ -43,12 +44,14 @@ dependencies {
 
     // Room
     implementation 'androidx.room:room-runtime:2.6.1'
-    implementation libs.play.services.location
     annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
-
-    // Google Maps SDK (solo una versión)
+    // Google Maps y ubicación
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // Si también usas OpenStreetMap, déjalo (opcional)
+    implementation 'org.osmdroid:osmdroid-android:6.1.10'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
