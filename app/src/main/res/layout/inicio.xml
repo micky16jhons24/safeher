@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Mapa OSMDroid -->
-    <org.osmdroid.views.MapView
+    <fragment
         android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
     <!-- UI flotante encima del mapa -->
     <androidx.constraintlayout.widget.ConstraintLayout

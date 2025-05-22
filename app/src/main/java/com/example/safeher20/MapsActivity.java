@@ -70,11 +70,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // 👇 Asegura que cambia el tipo de mapa
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
         habilitarMiUbicacion();
 
-        // Coordenadas IES Pío Baroja, Madrid
         LatLng madrid = new LatLng(40.4271, -3.6829);
         mMap.addMarker(new MarkerOptions().position(madrid).title("IES Pío Baroja"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, 15));
     }
+
 }
