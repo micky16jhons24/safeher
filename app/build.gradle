@@ -44,7 +44,11 @@ dependencies {
 
     // Room
     implementation 'androidx.room:room-runtime:2.6.1'
-    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2
+    implementation 'org.osmdroid:osmdroid-android:6.1.10'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     // Google Maps y ubicación
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
