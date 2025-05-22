@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Mapa OSMDroid -->
-    <org.osmdroid.views.MapView
+    <!-- Mapa de Google -->
+    <fragment
         android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- UI flotante encima del mapa -->
+    <!-- UI flotante -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,46 +43,59 @@
             app:layout_constraintStart_toStartOf="@id/logoImage"
             android:layout_marginTop="4dp" />
 
-        <!-- Botón: Safe Call (inferior izquierda) -->
+        <!-- Botón: Chat -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_chat_24"
+            android:contentDescription="Chat de emergencia"
+            app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@id/btnSafeCall"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp" />
+
+        <!-- Botón: Safe Call -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSafeCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_phone_24"
-            android:contentDescription="Safe Call"
+            android:contentDescription="Llamar al 112"
             app:backgroundTint="@android:color/white"
             app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="16dp" />
 
-        <!-- Botón: Ver Mapa (inferior derecha) -->
+        <!-- Botón: Ver Mapa -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnVerMapa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_map_24"
-            android:contentDescription="Ver Mapa"
+            android:contentDescription="Centrar en el mapa"
             app:backgroundTint="@android:color/white"
             app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="16dp" />
 
-        <!-- Botón: Salida Rápida (encima del mapa) -->
+        <!-- Botón: Salida Rápida -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSalirRapido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_warning_24"
-            android:contentDescription="Salida Rápida"
+            android:contentDescription="Cerrar aplicación"
             app:backgroundTint="#D32F2F"
             app:tint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@id/btnVerMapa"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="16dp" />
 
-        <!-- Botón: Viaje Seguro (centro inferior) -->
+        <!-- Botón: Viaje Seguro -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViajeSeguro"
             android:layout_width="wrap_content"
@@ -92,5 +106,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="90dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

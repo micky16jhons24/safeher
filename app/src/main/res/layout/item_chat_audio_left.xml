@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_left_bubble"
+    android:padding="10dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="60dp"
+    android:layout_gravity="start">
+
+    <ImageView
+        android:id="@+id/play_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/ic_media_play"
+        android:contentDescription="Reproducir audio" />
+
+    <TextView
+        android:id="@+id/audio_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19:12"
+        android:textColor="#666666"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp" />
+</LinearLayout>
