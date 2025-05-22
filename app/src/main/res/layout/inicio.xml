@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Mapa Google Maps -->
+    <!-- Mapa de Google -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- UI flotante encima del mapa -->
+    <!-- UI flotante -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,18 +43,31 @@
             app:layout_constraintStart_toStartOf="@id/logoImage"
             app:layout_constraintTop_toBottomOf="@id/logoImage" />
 
+        <!-- Botón: Chat -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/baseline_chat_24"
+            android:contentDescription="Chat de emergencia"
+            app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@id/btnSafeCall"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <!-- Botón: Safe Call -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSafeCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:contentDescription="Safe Call"
             android:src="@drawable/baseline_phone_24"
+            android:contentDescription="Llamar al 112"
             app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:tint="@android:color/black" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- Botón: Ver Mapa -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -62,12 +75,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:contentDescription="Ver Mapa"
             android:src="@drawable/baseline_map_24"
+            android:contentDescription="Ver Mapa"
             app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/black" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Botón: Salida Rápida -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -75,20 +88,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:contentDescription="Salida Rápida"
             android:src="@drawable/baseline_warning_24"
+            android:contentDescription="Cerrar aplicación"
             app:backgroundTint="#D32F2F"
+            app:tint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@id/btnVerMapa"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Botón: Viaje Seguro -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViajeSeguro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="90dp"
             android:text="Viaje Seguro"
+            android:layout_marginBottom="90dp"
             app:cornerRadius="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

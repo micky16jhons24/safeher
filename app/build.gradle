@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
-    // id 'com.google.gms.google-services' // si no usas Firebase, puede quedarse comentado
+    // id 'com.google.gms.google-services' // solo si usas Firebase
 }
 
 android {
@@ -35,27 +35,22 @@ android {
 }
 
 dependencies {
-    // Jetpack & AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
-    implementation 'androidx.activity:activity:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.activity:activity:1.8.0'
     implementation 'androidx.preference:preference:1.2.1'
 
-    // Room
+    // Room (Base de datos local)
     implementation 'androidx.room:room-runtime:2.6.1'
-    annotationProcessor 'androidx.room:room-compiler:2
-    implementation 'org.osmdroid:osmdroid-android:6.1.10'
-    implementation 'com.google.android.material:material:1.10.0'
-    implementation 'com.google.android.gms:play-services-maps:18.2.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
     // Google Maps y ubicación
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
-    // Si también usas OpenStreetMap, déjalo (opcional)
-    implementation 'org.osmdroid:osmdroid-android:6.1.10'
+    // (Opcional) OpenStreetMap si lo usas
+    // implementation 'org.osmdroid:osmdroid-android:6.1.10'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
