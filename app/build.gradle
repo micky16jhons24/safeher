@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.application'
+    // Asegúrate de que 'libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin' esté definido
+    // correctamente en tu archivo `settings.gradle` o `libs.versions.toml` si usas Version Catalogs.
+    // Si no usas Version Catalogs, la forma tradicional es:
+    // id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
-    // id 'com.google.gms.google-services' // si no usas Firebase, puede quedarse comentado
 }
 
 android {
@@ -19,8 +22,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true // Habilitado para release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false // Usualmente false para debug
+            // No necesitas proguardFiles aquí si minifyEnabled es false
         }
     }
 
@@ -30,34 +37,47 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding true // ViewBinding funciona bien con Java también
     }
 }
 
 dependencies {
-    // Jetpack & AndroidX
+    // Jetpack & AndroidX Core (versiones Java, no -ktx)
+    implementation 'androidx.core:core:1.12.0' // Versión Java de core
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.10.0'
-    implementation 'androidx.activity:activity:1.8.0'
+    implementation 'androidx.activity:activity:1.8.2' // Versión Java de activity
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.preference:preference:1.2.1' // Versión Java de preference
 
-    // Room
+    // Lifecycle (Versiones Java, no -ktx. `lifecycle-common-java8` es importante)
+    implementation "androidx.lifecycle:lifecycle-runtime:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-process:2.6.2"     // Para ProcessLifecycleOwner (importante para tu error)
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.2" // Para soporte de Java 8 con Lifecycle
+
+    // Room (Usa annotationProcessor para Java)
     implementation 'androidx.room:room-runtime:2.6.1'
-    annotationProcessor 'androidx.room:room-compiler:2
-    implementation 'org.osmdroid:osmdroid-android:6.1.10'
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation libs.places
+    annotationProcessor "androidx.room:room-compiler:2.6.1" // Para Java, se usa annotationProcessor
+
+    // Google Material Design
+    implementation 'com.google.android.material:material:1.11.0' // Revisa la última versión
+
+    // Maps & Location
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.gms:play-services-location:21.1.0' // Revisa la última versión
+    // implementation 'com.google.android.libraries.places:places:3.3.0' // Revisa la última versión y el ID correcto
 
-    // Google Maps y ubicación
-    implementation 'com.google.android.gms:play-services-maps:18.2.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    // OpenStreetMap (si usas)
+    implementation 'org.osmdroid:osmdroid-android:6.1.17' // Revisa la última versión
 
-    // Si también usas OpenStreetMap, déjalo (opcional)
-    implementation 'org.osmdroid:osmdroid-android:6.1.10'
+    // AndroidX Startup (Importante para la inicialización de Lifecycle)
+    implementation "androidx.startup:startup-runtime:1.1.1"
+    implementation 'com.android.volley:volley:1.2.1'
 
-    // Testing
+
+    // Test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

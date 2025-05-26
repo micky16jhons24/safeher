@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.1.0"
+androidGradlePlugin = "8.6.0"
 play_services_maps = "18.2.0"
 appcompat = "1.6.1"
 material = "1.10.0"
@@ -12,16 +12,17 @@ extjunit = "1.1.5"
 espresso = "3.5.1"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesLocation = "21.3.0"
+places = "2.4.0" # Corregido a la última versión estable
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-googleServices = { id = "com.google.gms.google-services", version = "4.4.1" }
+googleServices = { id = "com.google.gms.google-services", version = "4.4.1" } # Solo si usas Firebase
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
+activity = { module = "androidx.activity:activity", version.ref = "activity" } # Para Java, sin ktx
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 preference = { module = "androidx.preference:preference", version.ref = "preference" }
 play_services_maps = { module = "com.google.android.gms:play-services-maps", version.ref = "play_services_maps" }
@@ -30,4 +31,5 @@ room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 junit = { module = "junit:junit", version.ref = "junit" }
 ext_junit = { module = "androidx.test.ext:junit", version.ref = "extjunit" }
 espresso_core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
