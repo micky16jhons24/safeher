@@ -10,7 +10,7 @@
     <string name="registrarse">Registrarse</string>
     <string name="seleccionar_pais">Selecciona tu país</string>
 
-    <string name="google_maps_key">AIzaSyCp6_Tg-yn4nh1JGZe-Cy4wyaD9K6wFTDU</string>
+    <string name="google_maps_key">AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw</string>
 
     <string-array name="countries_array">
         <item>España</item>

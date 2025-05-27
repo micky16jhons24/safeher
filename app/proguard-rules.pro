@@ -1,21 +1,53 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# === AndroidX Core & Lifecycle ===
+# Reglas generales para AndroidX que suelen ser necesarias.
+-keep class androidx.core.app.CoreComponentFactory { *; }
+-keep class androidx.core.content.FileProvider { *; } # Si usas FileProvider
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Lifecycle (Muy importante para tu error)
+-keep public class * extends androidx.lifecycle.ViewModel { *; }
+-keep public interface androidx.lifecycle.LifecycleObserver { *; } # Interfaz en lugar de clase para implementaciones
+-keep class androidx.lifecycle.ReportFragment { *; }
+-keep class androidx.lifecycle.ReportFragment$* { *; } # Para clases internas como ActivityInitializationListener
+-keep public class androidx.lifecycle.ProcessLifecycleOwner { *; }
+-keep public class androidx.lifecycle.ProcessLifecycleInitializer { *; }
+-keep public class androidx.lifecycle.DefaultLifecycleObserver { *; } # Importante para Java 8
+-dontwarn androidx.lifecycle.**
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# AndroidX Startup (También crucial para tu error)
+-keep public interface androidx.startup.Initializer { *; } # Interfaz
+-keep public class androidx.startup.InitializationProvider { *; }
+-dontwarn androidx.startup.**
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# === Room ===
+# Si usas Room, estas reglas son importantes.
+-keep class androidx.room.** { *; }
+-dontwarn androidx.room.**
+-keepclassmembers class * extends androidx.room.RoomDatabase {
+    public static <T extends androidx.room.RoomDatabase> T create(android.content.Context, java.lang.Class<T>, java.lang.String);
+    public abstract <T> T getDao(java.lang.Class<T>); # Método común para obtener DAOs
+}
+# Mantén las clases @Entity, @Dao, @Database, TypeConverters
+-keep @androidx.room.Entity class * { *; }
+-keep @androidx.room.Dao interface * { *; } # DAOs son interfaces en Java
+-keep @androidx.room.Database class * { *; }
+-keep @androidx.room.TypeConverters class * { *; }
+-keepclassmembers class * { # Para mantener métodos anotados en DAOs, etc.
+    @androidx.room.Query <methods>;
+    @androidx.room.Insert <methods>;
+    @androidx.room.Update <methods>;
+    @androidx.room.Delete <methods>;
+    @androidx.room.Transaction <methods>;
+}
+
+# === Google Play Services (Maps, Location, Places) ===
+# Generalmente, las reglas de ProGuard para Play Services son manejadas por
+# los archivos de ProGuard que vienen con las propias bibliotecas.
+# Pero si tienes problemas específicos, puedes añadir:
+-dontwarn com.google.android.gms.**
+# -keep class com.google.android.gms.common.api.internal.TaskApiCall { *; } # Ejemplo si fuera necesario
+
+# === OSMDroid (si usas y tienes problemas de ofuscación) ===
+# -keep class org.osmdroid.** { *; }
+# -dontwarn org.osmdroid.**
+
+# === ViewBinding

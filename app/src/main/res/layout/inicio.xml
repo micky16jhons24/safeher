@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".PantallaInicio.Inicio">
 
     <!-- Mapa de Google -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false" />
 
     <!-- UI flotante -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
         android:padding="16dp">
 
         <!-- Logo -->
@@ -24,7 +27,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:contentDescription="@string/logo_app"
             android:src="@drawable/icono"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,13 +40,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="S.A.F.E. Her"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/logoImage"
             app:layout_constraintTop_toBottomOf="@id/logoImage" />
 
-        <!-- Botón: Chat -->
+        <!-- Autocomplete Fragment (Places) -->
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="342dp"
+            android:layout_height="59dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.898" />
+
+        <!-- Botón: Viaje Seguro -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViajeSeguro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Viaje Seguro"
+            app:cornerRadius="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.786" />
+
+        <!-- Botón: Chat (AGREGADO DE MASTER) -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnChat"
             android:layout_width="wrap_content"
@@ -61,9 +88,10 @@
             android:id="@+id/btnSafeCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="168dp"
+            android:contentDescription="Safe Call"
             android:src="@drawable/baseline_phone_24"
-            android:contentDescription="Llamar al 112"
             app:backgroundTint="@android:color/white"
             app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -74,9 +102,10 @@
             android:id="@+id/btnVerMapa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:src="@drawable/baseline_map_24"
-            android:contentDescription="Ver Mapa"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="168dp"
+            android:contentDescription="Centrar en mi ubicación"
+            android:src="@drawable/baseline_my_location_24"
             app:backgroundTint="@android:color/white"
             app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,24 +116,13 @@
             android:id="@+id/btnSalirRapido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Salida Rápida"
             android:src="@drawable/baseline_warning_24"
-            android:contentDescription="Cerrar aplicación"
             app:backgroundTint="#D32F2F"
             app:tint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@id/btnVerMapa"
             app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Botón: Viaje Seguro -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnViajeSeguro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Viaje Seguro"
-            android:layout_marginBottom="90dp"
-            app:cornerRadius="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
