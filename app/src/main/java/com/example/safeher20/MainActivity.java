@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.safeher20.PantallaInicio.Inicio;
 import com.example.safeher20.db.AppDatabase;
 import com.example.safeher20.model.Usuaria;
-import com.example.safeher20.R;
 
 import java.util.List;
 
@@ -30,21 +29,47 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<Usuaria> todas = AppDatabase.getInstance(getApplicationContext()).usuariaDao().getTodas();
-        for (Usuaria u : todas) {
-            Log.d("DEBUG_USUARIAS", "Email: " + u.getEmail() + ", Pass: " + u.getContrasena());
-        }
-
 
         // Referencias a vistas
-        Button buttonContinuar = findViewById(R.id.button); // ID correcto para el botón "Continuar"
-        Button buttonRegistrarse = findViewById(R.id.button9); // Botón "Registrarse"
-        Button selectCountryButton = findViewById(R.id.selectCountryButton); // Botón para selección de país
-        ImageView imageView = findViewById(R.id.myImageView); // Imagen de bienvenida
-        editTextEmail = findViewById(R.id.editTextPhone2); // Campo de correo electrónico
-        editTextPassword = findViewById(R.id.editTextPhone); // Campo de contraseña
+        Button buttonContinuar = findViewById(R.id.button);
+        Button buttonRegistrarse = findViewById(R.id.button9);
+        Button selectCountryButton = findViewById(R.id.selectCountryButton);
+        ImageView imageView = findViewById(R.id.myImageView);
+        editTextEmail = findViewById(R.id.editTextPhone2);
+        editTextPassword = findViewById(R.id.editTextPhone);
 
-        // Botón CONTINUAR → Validación e ir a Inicio
+        // Imagen de bienvenida
+        imageView.setImageResource(R.drawable.icono);
+
+        // Ajuste de padding para barras del sistema
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // Cargar países desde recursos y preparar el selector
+        String[] countries = getResources().getStringArray(R.array.countries_array);
+        selectCountryButton.setOnClickListener(v -> {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Selecciona un país")
+                    .setAdapter(adapter, (dialog, which) -> {
+                        String selectedCountry = countries[which];
+                        selectCountryButton.setText(selectedCountry);
+                        Toast.makeText(this, "Seleccionaste: " + selectedCountry, Toast.LENGTH_SHORT).show();
+                    })
+                    .create()
+                    .show();
+        });
+
+        // Acción para botón de registro
+        buttonRegistrarse.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+        });
+
+        // Acción para botón continuar (login)
         buttonContinuar.setOnClickListener(v -> {
             String email = editTextEmail.getText().toString().trim();
             String password = hashPassword(editTextPassword.getText().toString().trim());
@@ -76,57 +101,29 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         });
 
-        // Botón REGISTRARSE → ir a la actividad de registro
-        buttonRegistrarse.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        });
-
-        // Ajuste de bordes (barra de estado)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        // Imagen de bienvenida
-        imageView.setImageResource(R.drawable.icono);
-
-        // Lista de países desde strings.xml
-        String[] countries = getResources().getStringArray(R.array.countries_array);
-
-        // Botón de selección de país
-        selectCountryButton.setOnClickListener(v -> {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Selecciona un país")
-                    .setAdapter(adapter, (dialog, which) -> {
-                        String selectedCountry = countries[which];
-                        selectCountryButton.setText(selectedCountry);
-                        Toast.makeText(MainActivity.this, "Seleccionaste: " + selectedCountry, Toast.LENGTH_SHORT).show();
-                    });
-
-            builder.create().show();
-        });
+        // Log de todas las usuarias (en segundo plano para evitar bloqueo de UI)
+        new Thread(() -> {
+            List<Usuaria> todas = AppDatabase.getInstance(getApplicationContext()).usuariaDao().getTodas();
+            for (Usuaria u : todas) {
+                Log.d("DEBUG_USUARIAS", "Email: " + u.getEmail() + ", Pass: " + u.getContrasena());
+            }
+        }).start();
     }
+
     private String hashPassword(String password) {
         try {
             java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes());
             StringBuilder hexString = new StringBuilder();
-
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
                 if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
-
             return hexString.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-
 }

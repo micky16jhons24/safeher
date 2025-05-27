@@ -6,17 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".PantallaInicio.Inicio">
 
-    <!-- Mapa Google Maps -->
+    <!-- Mapa de Google -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
-        android:focusable="false"
-        android:layout_alignParentTop="true" />
+        android:focusable="false" />
 
-    <!-- UI flotante encima del mapa -->
+    <!-- UI flotante -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,9 +46,7 @@
             app:layout_constraintStart_toStartOf="@id/logoImage"
             app:layout_constraintTop_toBottomOf="@id/logoImage" />
 
-        <!-- Fragmento de Autocompletado de Places -->
-        <!-- Autocomplete Fragment -->
-
+        <!-- Autocomplete Fragment (Places) -->
         <fragment
             android:id="@+id/autocomplete_fragment"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
@@ -57,11 +54,11 @@
             android:layout_height="59dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.485"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.898" />
 
+        <!-- Botón: Viaje Seguro -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViajeSeguro"
             android:layout_width="wrap_content"
@@ -70,11 +67,23 @@
             app:cornerRadius="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.786" />
 
+        <!-- Botón: Chat (AGREGADO DE MASTER) -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/baseline_chat_24"
+            android:contentDescription="Chat de emergencia"
+            app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@id/btnSafeCall"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Botón: Safe Call -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSafeCall"
             android:layout_width="wrap_content"
@@ -84,10 +93,11 @@
             android:contentDescription="Safe Call"
             android:src="@drawable/baseline_phone_24"
             app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:tint="@android:color/black" />
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <!-- Botón: Ver Mapa -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnVerMapa"
             android:layout_width="wrap_content"
@@ -97,10 +107,11 @@
             android:contentDescription="Centrar en mi ubicación"
             android:src="@drawable/baseline_my_location_24"
             app:backgroundTint="@android:color/white"
+            app:tint="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/black" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Botón: Salida Rápida -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSalirRapido"
             android:layout_width="wrap_content"
@@ -110,9 +121,8 @@
             android:contentDescription="Salida Rápida"
             android:src="@drawable/baseline_warning_24"
             app:backgroundTint="#D32F2F"
+            app:tint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@id/btnVerMapa"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
-
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

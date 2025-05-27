@@ -3,6 +3,7 @@ package com.example.safeher20.PantallaInicio;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.safeher20.ChatActivity;
 import com.example.safeher20.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,9 +42,8 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
 
-    // Constantes
     private final LatLng madridCentro = new LatLng(40.4168, -3.7038);
-    private final LatLng destino = new LatLng(40.4180, -3.7065); // Destino fijo
+    private final LatLng destino = new LatLng(40.4180, -3.7065);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
-        // Inicializar Places SDK
+        // Inicializar Places
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), "AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw");
         }
@@ -67,9 +68,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         if (autocompleteFragment != null) {
             autocompleteFragment.setPlaceFields(Arrays.asList(
-                    Place.Field.ID,
-                    Place.Field.NAME,
-                    Place.Field.LAT_LNG));
+                    Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
             autocompleteFragment.setHint("¿A dónde vas?");
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
@@ -89,10 +88,12 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             autocompleteView.setBackgroundResource(R.drawable.search_background);
         }
 
+        // Botones
         findViewById(R.id.btnViajeSeguro).setOnClickListener(v -> iniciarViajeSeguro());
         findViewById(R.id.btnVerMapa).setOnClickListener(v -> centrarEnMiUbicacion());
-        findViewById(R.id.btnSafeCall).setOnClickListener(v -> llamarEmergencia());
-        findViewById(R.id.btnSalirRapido).setOnClickListener(v -> salirApp());
+        findViewById(R.id.btnSafeCall).setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:112"))));
+        findViewById(R.id.btnSalirRapido).setOnClickListener(v -> finishAffinity());
+        findViewById(R.id.btnChat).setOnClickListener(v -> startActivity(new Intent(Inicio.this, ChatActivity.class)));
     }
 
     @Override
@@ -112,13 +113,21 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                     LOCATION_PERMISSION_CODE);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14f));
         }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destino, 14f));
+    }
+
+    private void activarUbicacionUsuario() {
+        if (googleMap == null) return;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) return;
+
+        googleMap.setMyLocationEnabled(true);
     }
 
     private void obtenerUbicacionYCentrar() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+                != PackageManager.PERMISSION_GRANTED) return;
 
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location != null) {
@@ -129,15 +138,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14f));
             }
         });
-    }
-
-    private void activarUbicacionUsuario() {
-        if (googleMap == null) return;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        googleMap.setMyLocationEnabled(true);
     }
 
     private void centrarEnMiUbicacion() {
@@ -176,6 +176,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             LatLng ubicacion = new LatLng(location.getLatitude(), location.getLongitude());
             googleMap.clear();
             mostrarTaxisCercanos(ubicacion);
+
             PolylineOptions ruta = new PolylineOptions()
                     .add(ubicacion)
                     .add(destino)
@@ -184,7 +185,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             googleMap.addPolyline(ruta);
 
             float[] results = new float[1];
-            android.location.Location.distanceBetween(
+            Location.distanceBetween(
                     ubicacion.latitude, ubicacion.longitude,
                     destino.latitude, destino.longitude,
                     results);
@@ -215,30 +216,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
     }
 
-    private void llamarEmergencia() {
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:112"));
-        startActivity(intent);
-    }
-
-    private void salirApp() {
-        Toast.makeText(this, "Saliendo...", Toast.LENGTH_SHORT).show();
-        finishAffinity();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == LOCATION_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                activarUbicacionUsuario();
-                obtenerUbicacionYCentrar();
-            } else {
-                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
     private void obtenerUbicacionYMostrarRuta(LatLng destino) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -266,5 +243,19 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                activarUbicacionUsuario();
+                obtenerUbicacionYCentrar();
+            } else {
+                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

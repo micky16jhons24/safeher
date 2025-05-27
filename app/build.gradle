@@ -1,10 +1,8 @@
 plugins {
     id 'com.android.application'
-    // Asegúrate de que 'libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin' esté definido
-    // correctamente en tu archivo `settings.gradle` o `libs.versions.toml` si usas Version Catalogs.
-    // Si no usas Version Catalogs, la forma tradicional es:
-    // id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    // Usar alias solo si estás utilizando Version Catalogs y está bien definido
     alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
+    // id 'com.google.gms.google-services' // solo si usas Firebase
 }
 
 android {
@@ -22,12 +20,11 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true // Habilitado para release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false // Usualmente false para debug
-            // No necesitas proguardFiles aquí si minifyEnabled es false
+            minifyEnabled false
         }
     }
 
@@ -37,47 +34,49 @@ android {
     }
 
     buildFeatures {
-        viewBinding true // ViewBinding funciona bien con Java también
+        viewBinding true
     }
 }
 
 dependencies {
-    // Jetpack & AndroidX Core (versiones Java, no -ktx)
-    implementation 'androidx.core:core:1.12.0' // Versión Java de core
+    // Jetpack & AndroidX Core (Java)
+    implementation 'androidx.core:core:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.activity:activity:1.8.2' // Versión Java de activity
+    implementation 'androidx.activity:activity:1.8.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.preference:preference:1.2.1' // Versión Java de preference
+    implementation 'androidx.preference:preference:1.2.1'
 
-    // Lifecycle (Versiones Java, no -ktx. `lifecycle-common-java8` es importante)
+    // Lifecycle (Java)
     implementation "androidx.lifecycle:lifecycle-runtime:2.6.2"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.2"
     implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
-    implementation "androidx.lifecycle:lifecycle-process:2.6.2"     // Para ProcessLifecycleOwner (importante para tu error)
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.2" // Para soporte de Java 8 con Lifecycle
+    implementation "androidx.lifecycle:lifecycle-process:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.2"
 
-    // Room (Usa annotationProcessor para Java)
+    // Room (Java)
     implementation 'androidx.room:room-runtime:2.6.1'
-    implementation libs.places
-    annotationProcessor "androidx.room:room-compiler:2.6.1" // Para Java, se usa annotationProcessor
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
 
-    // Google Material Design
-    implementation 'com.google.android.material:material:1.11.0' // Revisa la última versión
+    // Material Design
+    implementation 'com.google.android.material:material:1.11.0'
 
-    // Maps & Location
+    // Google Maps & Location
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
-    implementation 'com.google.android.gms:play-services-location:21.1.0' // Revisa la última versión
-    // implementation 'com.google.android.libraries.places:places:3.3.0' // Revisa la última versión y el ID correcto
+    implementation 'com.google.android.gms:play-services-location:21.1.0'
 
-    // OpenStreetMap (si usas)
-    implementation 'org.osmdroid:osmdroid-android:6.1.17' // Revisa la última versión
+    // Places API (si usas Version Catalogs, asegúrate de definirlo correctamente)
+    implementation libs.places
 
-    // AndroidX Startup (Importante para la inicialización de Lifecycle)
+    // OpenStreetMap (si lo usas)
+    implementation 'org.osmdroid:osmdroid-android:6.1.17'
+
+    // AndroidX Startup
     implementation "androidx.startup:startup-runtime:1.1.1"
+
+    // Volley (HTTP Requests)
     implementation 'com.android.volley:volley:1.2.1'
 
-
-    // Test
+    // Tests
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
