@@ -42,7 +42,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
     // Constantes
     private final LatLng madridCentro = new LatLng(40.4168, -3.7038);
-    private final LatLng destino = new LatLng(40.4180, -3.7065); // Destino fijo (puedes cambiarlo dinámicamente si quieres)
+    private final LatLng destino = new LatLng(40.4180, -3.7065); // Destino fijo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,20 +105,30 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             activarUbicacionUsuario();
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-                if (location != null) {
-                    LatLng ubicacionActual = new LatLng(location.getLatitude(), location.getLongitude());
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionActual, 15f));
-                } else {
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14f));
-                }
-            });
+            obtenerUbicacionYCentrar();
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_CODE);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14f));
         }
+    }
+
+    private void obtenerUbicacionYCentrar() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current, 15f));
+            } else {
+                Toast.makeText(this, "No se pudo obtener tu ubicación", Toast.LENGTH_SHORT).show();
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14f));
+            }
+        });
     }
 
     private void activarUbicacionUsuario() {
@@ -134,13 +144,14 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (googleMap == null) return;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permiso de ubicación no concedido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
             return;
         }
+
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location != null) {
-                LatLng ubicacionActual = new LatLng(location.getLatitude(), location.getLongitude());
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionActual, 15f));
+                LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current, 15f));
                 Toast.makeText(this, "Centrado en tu ubicación", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Ubicación aún no disponible", Toast.LENGTH_SHORT).show();
@@ -155,11 +166,13 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             Toast.makeText(this, "Permiso de ubicación no concedido", Toast.LENGTH_SHORT).show();
             return;
         }
+
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location == null) {
                 Toast.makeText(this, "Ubicación no disponible aún", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             LatLng ubicacion = new LatLng(location.getLatitude(), location.getLongitude());
             googleMap.clear();
             mostrarTaxisCercanos(ubicacion);
@@ -218,6 +231,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (requestCode == LOCATION_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 activarUbicacionUsuario();
+                obtenerUbicacionYCentrar();
             } else {
                 Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
             }
@@ -230,21 +244,25 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 LatLng origen = new LatLng(location.getLatitude(), location.getLongitude());
                 googleMap.clear();
                 mostrarTaxisCercanos(origen);
+
                 PolylineOptions ruta = new PolylineOptions()
                         .add(origen)
                         .add(destino)
                         .width(10f)
                         .color(ContextCompat.getColor(this, R.color.black));
                 googleMap.addPolyline(ruta);
+
                 LatLngBounds bounds = new LatLngBounds.Builder()
                         .include(origen)
                         .include(destino)
                         .build();
+
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
             }
         });
