@@ -2,17 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#FAFAFA">
+    android:background="#F7D8E4"
+    android:padding="16dp">
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:contentDescription="Formulario de registro"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
+            <!-- Título -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,61 +33,109 @@
                 android:textStyle="bold"
                 android:textColor="#3F51B5"
                 android:gravity="center"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="24dp"/>
 
-            <!-- Datos de cuenta -->
+            <!-- Sección: Datos de cuenta -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Datos de cuenta"
                 android:textStyle="bold"
                 android:textSize="18sp"
+                android:textColor="@android:color/black"
                 android:layout_marginBottom="8dp"/>
 
-            <EditText
-                android:id="@+id/editTextEmail"
-                style="@style/CustomInput"
-                android:hint="Email"
-                android:inputType="textEmailAddress"/>
+            <!-- Email -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Email">
 
-            <EditText
-                android:id="@+id/editTextPassword"
-                style="@style/CustomInput"
-                android:hint="Contraseña"
-                android:inputType="textPassword"/>
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Datos personales -->
+            <!-- Contraseña -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Contraseña">
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Sección: Datos personales -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Datos personales"
                 android:textStyle="bold"
                 android:textSize="18sp"
+                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"/>
 
-            <EditText
-                android:id="@+id/editTextDni"
-                style="@style/CustomInput"
-                android:hint="DNI"/>
+            <!-- DNI -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="DNI">
 
-            <EditText
-                android:id="@+id/editTextNombre"
-                style="@style/CustomInput"
-                android:hint="Nombre"/>
+                <EditText
+                    android:id="@+id/editTextDni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextApellido"
-                style="@style/CustomInput"
-                android:hint="Apellido"/>
+            <!-- Nombre -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Nombre">
 
+                <EditText
+                    android:id="@+id/editTextNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Apellido -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Apellido">
+
+                <EditText
+                    android:id="@+id/editTextApellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Género -->
             <RadioGroup
                 android:id="@+id/radioGroupGenero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="16dp">
 
                 <RadioButton
                     android:id="@+id/radioMujer"
@@ -99,75 +148,144 @@
                     android:id="@+id/radioOtro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Otro"/>
+                    android:text="Otro"
+                    android:layout_marginStart="16dp"/>
             </RadioGroup>
 
-            <!-- Dirección -->
+            <!-- Sección: Dirección -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dirección"
                 android:textStyle="bold"
                 android:textSize="18sp"
+                android:textColor="@android:color/black"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"/>
 
+            <!-- País -->
             <Spinner
                 android:id="@+id/spinnerPais"
-                style="@style/CustomSpinner"/>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"/>
 
+            <!-- Ciudad -->
             <Spinner
                 android:id="@+id/spinnerCiudad"
-                style="@style/CustomSpinner"/>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"/>
 
-            <EditText
-                android:id="@+id/editTextDireccion"
-                style="@style/CustomInput"
-                android:hint="Dirección"/>
+            <!-- Dirección -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Dirección">
 
-            <EditText
-                android:id="@+id/editTextPortal"
-                style="@style/CustomInput"
-                android:hint="Portal"/>
+                <EditText
+                    android:id="@+id/editTextDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextPiso"
-                style="@style/CustomInput"
-                android:hint="Piso"/>
+            <!-- Portal -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Portal">
 
-            <EditText
-                android:id="@+id/editTextPuerta"
-                style="@style/CustomInput"
-                android:hint="Puerta"/>
+                <EditText
+                    android:id="@+id/editTextPortal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextPhone"
-                style="@style/CustomInput"
-                android:hint="Teléfono"
-                android:inputType="phone"/>
+            <!-- Piso -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Piso">
 
-            <EditText
-                android:id="@+id/editTextCodigoPostal"
-                style="@style/CustomInput"
-                android:hint="Código Postal"
-                android:inputType="number"/>
+                <EditText
+                    android:id="@+id/editTextPiso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Botones -->
-            <Button
+            <!-- Puerta -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Puerta">
+
+                <EditText
+                    android:id="@+id/editTextPuerta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Teléfono -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Teléfono">
+
+                <EditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Código Postal -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Código Postal">
+
+                <EditText
+                    android:id="@+id/editTextCodigoPostal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Botón Subir DNI -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnUploadDni"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Subir foto del DNI"
+                android:textColor="#3F51B5"
+                app:strokeColor="#3F51B5"
                 android:layout_marginTop="16dp"/>
 
-            <Button
+            <!-- Botón Registrar -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegistrar"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Registrar"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="#3F51B5"
-                android:textColor="#FFFFFF"/>
+                android:textColor="@android:color/white"
+                app:backgroundTint="#3F51B5"
+                android:layout_marginTop="16dp"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
