@@ -3,10 +3,8 @@ package com.example.safeher20.PantallaInicio;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -197,6 +195,11 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private void iniciarViajeSeguro() {
         if (googleMap == null) return;
 
+        if (destinoSeleccionado == null) {
+            destinoSeleccionado = defaultDestino;
+            Toast.makeText(this, "Destino por defecto seleccionado", Toast.LENGTH_SHORT).show();
+        }
+
         if (origenSeleccionado == null || destinoSeleccionado == null) {
             Toast.makeText(this, "Por favor, selecciona tanto el origen como el destino", Toast.LENGTH_SHORT).show();
             return;
@@ -227,12 +230,21 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         double tiempoMin = (distanciaKm / 30.0) * 60.0;
 
         // Mostrar diálogo con info
+        boolean esNocturnoOFestivo = false; // cambia esto según la condición real
+
+        double tarifaPorKm = esNocturnoOFestivo ? 1.50 : 1.30;
+        double bajadaBandera = 3.00;
+
+        double precio = bajadaBandera + (distanciaKm * tarifaPorKm);
+
         new AlertDialog.Builder(this)
                 .setTitle("Viaje Seguro")
-                .setMessage(String.format("Distancia: %.1f km\nTiempo estimado: %.0f minutos\n• Corto: 5€\n• Medio: 10€\n• Largo: 15€",
-                        distanciaKm, tiempoMin))
+                .setMessage(String.format(
+                        "Distancia: %.1f km\nTiempo estimado: %.0f minutos\n\nTarifa: %.2f €/km\nBajada de bandera: %.2f €\n\nPrecio estimado: %.2f €",
+                        distanciaKm, tiempoMin, tarifaPorKm, bajadaBandera, precio))
                 .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
                 .show();
+
 
         // Centrar cámara en ambos puntos
         LatLngBounds bounds = new LatLngBounds.Builder()
