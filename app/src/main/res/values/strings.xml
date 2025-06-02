@@ -9,6 +9,13 @@
     <string name="continuar">Continuar</string>
     <string name="registrarse">Registrarse</string>
     <string name="seleccionar_pais">Selecciona tu país</string>
+    <string name="viaje_seguro">Viaje Seguro</string>
+    <string name="hint_partida">Elige punto de partida</string>
+    <string name="hint_destino">¿A dónde vas?</string>
+    <string name="chat_emergencia">Chat de emergencia</string>
+    <string name="salida_rapida">Salida rápida</string>
+    <string name="centrar_mapa">Centrar mapa</string>
+    <string name="lamada_emergencia">Llamada segura</string>
 
     <string name="google_maps_key">AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw</string>
 
