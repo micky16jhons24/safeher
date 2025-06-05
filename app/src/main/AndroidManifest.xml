@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.safeher20">
 
-    <!-- Permisos necesarios -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,23 +20,19 @@
         android:theme="@style/Theme.SAFEHER20"
         tools:targetApi="31">
 
-        <!-- Clave de la API de Google Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw" />
 
-        <!-- Preloaded fonts opcional -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <!-- Actividad del mapa (si la usas) -->
         <activity
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
 
-        <!-- Actividad principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -47,13 +42,10 @@
             </intent-filter>
         </activity>
 
-        <!-- Actividad de registro -->
         <activity android:name=".RegisterActivity" />
 
-        <!-- Actividad de inicio con el mapa y botones -->
         <activity android:name=".PantallaInicio.Inicio" />
 
-        <!-- Actividad del chat -->
         <activity android:name=".ChatActivity" />
 
     </application>

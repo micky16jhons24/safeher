@@ -1,15 +1,17 @@
 package com.example.safeher20;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,6 +30,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Verificar si ya hay una sesión iniciada
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        String savedEmail = prefs.getString("email", null);
+        if (savedEmail != null) {
+            startActivity(new Intent(this, Inicio.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_main);
 
         // Referencias a vistas
@@ -79,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(this, "Introduce un correo electrónico válido.", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -93,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
                     if (usuaria == null) {
                         Toast.makeText(MainActivity.this, "Correo o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
                     } else {
+                        // Guardar sesión
+                        getSharedPreferences("user_session", MODE_PRIVATE)
+                                .edit()
+                                .putString("email", usuaria.getEmail())
+                                .apply();
+
                         Toast.makeText(MainActivity.this, "Bienvenida, " + usuaria.getNombre(), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, Inicio.class));
                         finish();
@@ -101,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }).start();
         });
 
-        // Log de todas las usuarias (en segundo plano para evitar bloqueo de UI)
+        // Log de todas las usuarias (debug)
         new Thread(() -> {
             List<Usuaria> todas = AppDatabase.getInstance(getApplicationContext()).usuariaDao().getTodas();
             for (Usuaria u : todas) {
