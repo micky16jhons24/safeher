@@ -320,77 +320,65 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private void inicializarConductores() {
         listaConductores.clear();
 
-        listaConductores.add(new Conductor("Laura", new LatLng(40.4800, -3.7000)));  // Norte
-        listaConductores.add(new Conductor("María", new LatLng(40.4750, -3.6900)));
-        listaConductores.add(new Conductor("Carmen", new LatLng(40.4700, -3.6800)));
-        listaConductores.add(new Conductor("Ana", new LatLng(40.4650, -3.6700)));
-        listaConductores.add(new Conductor("Sara", new LatLng(40.4600, -3.6600)));
+        listaConductores.add(new Conductor("Laura", new LatLng(40.3800, -3.7000)));  // Norte
+        listaConductores.add(new Conductor("María", new LatLng(40.2750, -3.6900)));
+        listaConductores.add(new Conductor("Carmen", new LatLng(40.1700, -3.5800)));
+        listaConductores.add(new Conductor("Sara", new LatLng(40.9600, -3.2600)));
 
-        listaConductores.add(new Conductor("David", new LatLng(40.4400, -3.7200)));  // Noroeste
-        listaConductores.add(new Conductor("Lucía", new LatLng(40.4350, -3.7150)));
-        listaConductores.add(new Conductor("Carlos", new LatLng(40.4300, -3.7100)));
-        listaConductores.add(new Conductor("Isabel", new LatLng(40.4250, -3.7050)));
-        listaConductores.add(new Conductor("Javier", new LatLng(40.4200, -3.7000)));
+        listaConductores.add(new Conductor("David", new LatLng(40.1400, -3.2200)));  // Noroeste
+        listaConductores.add(new Conductor("Lucía", new LatLng(40.2350, -3.7150)));
+        listaConductores.add(new Conductor("Isabel", new LatLng(40.3250, -3.6010)));
+        listaConductores.add(new Conductor("Javier", new LatLng(40.5100, -3.6000)));
 
-        listaConductores.add(new Conductor("Elena", new LatLng(40.4000, -3.7400)));  // Oeste
+        listaConductores.add(new Conductor("Elena", new LatLng(40.1000, -3.7400)));  // Oeste
         listaConductores.add(new Conductor("Andrés", new LatLng(40.3950, -3.7350)));
-        listaConductores.add(new Conductor("Sofía", new LatLng(40.3900, -3.7300)));
-        listaConductores.add(new Conductor("Miguel", new LatLng(40.3850, -3.7250)));
-        listaConductores.add(new Conductor("Patricia", new LatLng(40.3800, -3.7200)));
+        listaConductores.add(new Conductor("Sofía", new LatLng(40.6900, -3.7300)));
+        listaConductores.add(new Conductor("Patricia", new LatLng(40.8800, -3.7200)));
 
         listaConductores.add(new Conductor("Manuel", new LatLng(40.3500, -3.7000)));  // Sur (cerca A-42)
-        listaConductores.add(new Conductor("Teresa", new LatLng(40.3450, -3.6950)));
-        listaConductores.add(new Conductor("Alberto", new LatLng(40.3400, -3.6900)));
-        listaConductores.add(new Conductor("Natalia", new LatLng(40.3350, -3.6850)));
-        listaConductores.add(new Conductor("Fernando", new LatLng(40.3300, -3.6800)));
+        listaConductores.add(new Conductor("Teresa", new LatLng(40.5450, -3.6950)));
+        listaConductores.add(new Conductor("Alberto", new LatLng(40.6400, -3.6900)));
+        listaConductores.add(new Conductor("Fernando", new LatLng(40.1300, -3.6800)));
 
-        listaConductores.add(new Conductor("César", new LatLng(40.3100, -3.6900)));  // Sur más alejado
-        listaConductores.add(new Conductor("Daniela", new LatLng(40.3050, -3.6850)));
-        listaConductores.add(new Conductor("Gonzalo", new LatLng(40.3000, -3.6800)));
-        listaConductores.add(new Conductor("Noemí", new LatLng(40.2950, -3.6750)));
-        listaConductores.add(new Conductor("Irene", new LatLng(40.2900, -3.6700)));
+        listaConductores.add(new Conductor("César", new LatLng(40.9100, -3.6900)));  // Sur más alejado
+        listaConductores.add(new Conductor("Daniela", new LatLng(40.7050, -3.6850)));
+        listaConductores.add(new Conductor("Gonzalo", new LatLng(40.5000, -3.6800)));
+        listaConductores.add(new Conductor("Irene", new LatLng(40.3900, -3.6700)));
 
-        listaConductores.add(new Conductor("Mario", new LatLng(40.4200, -3.6500)));  // Este
-        listaConductores.add(new Conductor("Leo", new LatLng(40.4150, -3.6450)));
-        listaConductores.add(new Conductor("Patricia R.", new LatLng(40.4100, -3.6400)));
+        listaConductores.add(new Conductor("Mario", new LatLng(40.1200, -3.6500)));  // Este
+        listaConductores.add(new Conductor("Patricia R.", new LatLng(40.3100, -3.6400)));
         listaConductores.add(new Conductor("Hugo", new LatLng(40.4050, -3.6350)));
-        listaConductores.add(new Conductor("Clara", new LatLng(40.4000, -3.6300)));
+        listaConductores.add(new Conductor("Clara", new LatLng(40.9000, -3.6300)));
 
         listaConductores.add(new Conductor("Santiago", new LatLng(40.3850, -3.6200)));  // Sureste
-        listaConductores.add(new Conductor("Laura M.", new LatLng(40.3800, -3.6150)));
-        listaConductores.add(new Conductor("Iván", new LatLng(40.3750, -3.6100)));
-        listaConductores.add(new Conductor("Rosa", new LatLng(40.3700, -3.6050)));
-        listaConductores.add(new Conductor("Pablo", new LatLng(40.3650, -3.6000)));
+        listaConductores.add(new Conductor("Laura M.", new LatLng(40.5800, -3.6150)));
+        listaConductores.add(new Conductor("Iván", new LatLng(40.7750, -3.6100)));
+        listaConductores.add(new Conductor("Rosa", new LatLng(40.5700, -3.6050)));
 
-        listaConductores.add(new Conductor("Marta", new LatLng(40.4500, -3.5800)));  // Noreste
-        listaConductores.add(new Conductor("Andrés V.", new LatLng(40.4550, -3.5850)));
+        listaConductores.add(new Conductor("Marta", new LatLng(40.1500, -3.5800)));  // Noreste
+        listaConductores.add(new Conductor("Andrés V.", new LatLng(40.3550, -3.5850)));
         listaConductores.add(new Conductor("Sandra", new LatLng(40.4600, -3.6900)));
-        listaConductores.add(new Conductor("David P.", new LatLng(40.4650, -3.5950)));
-        listaConductores.add(new Conductor("Elisa", new LatLng(40.4700, -3.6400)));
+        listaConductores.add(new Conductor("David P.", new LatLng(40.8650, -3.5950)));
 
         listaConductores.add(new Conductor("Juan", new LatLng(40.5000, -3.7000)));  // Carretera M-30 norte
-        listaConductores.add(new Conductor("Beatriz", new LatLng(40.4950, -3.7050)));
-        listaConductores.add(new Conductor("Carlos B.", new LatLng(40.4900, -3.6900)));
+        listaConductores.add(new Conductor("Beatriz", new LatLng(40.2950, -3.7050)));
         listaConductores.add(new Conductor("Julia", new LatLng(40.4850, -3.7850)));
-        listaConductores.add(new Conductor("Felipe", new LatLng(40.4800, -3.7200)));
+        listaConductores.add(new Conductor("Felipe", new LatLng(40.6800, -3.7200)));
 
-        listaConductores.add(new Conductor("Natalia G.", new LatLng(40.4600, -3.7500)));  // Carretera M-40 oeste
-        listaConductores.add(new Conductor("Ricardo", new LatLng(40.4550, -3.7550)));
-        listaConductores.add(new Conductor("Claudia", new LatLng(40.4500, -3.7600)));
-        listaConductores.add(new Conductor("Óscar", new LatLng(40.4450, -3.7650)));
-        listaConductores.add(new Conductor("Silvia", new LatLng(40.4400, -3.7700)));
+        listaConductores.add(new Conductor("Natalia G.", new LatLng(40.1600, -3.7500)));  // Carretera M-40 oeste
+        listaConductores.add(new Conductor("Claudia", new LatLng(40.3500, -3.7600)));
+        listaConductores.add(new Conductor("Óscar", new LatLng(40.5450, -3.7650)));
+        listaConductores.add(new Conductor("Silvia", new LatLng(40.7400, -3.7700)));
 
-        listaConductores.add(new Conductor("Enrique", new LatLng(40.4200, -3.8000)));  // Carretera A-2 sur
+        listaConductores.add(new Conductor("Enrique", new LatLng(40.9200, -3.8000)));  // Carretera A-2 sur
         listaConductores.add(new Conductor("Natalia T.", new LatLng(40.4150, -3.8050)));
-        listaConductores.add(new Conductor("Mónica", new LatLng(40.4100, -3.8100)));
-        listaConductores.add(new Conductor("Jorge", new LatLng(40.4050, -3.8150)));
-        listaConductores.add(new Conductor("Fernando R.", new LatLng(40.4000, -3.8200)));
+        listaConductores.add(new Conductor("Mónica", new LatLng(40.3100, -3.8100)));
+        listaConductores.add(new Conductor("Fernando R.", new LatLng(40.2000, -3.8200)));
 
-        listaConductores.add(new Conductor("Sonia", new LatLng(40.3750, -3.8500)));  // Carretera A-42 sur
+        listaConductores.add(new Conductor("Sonia", new LatLng(40.1750, -3.8500)));  // Carretera A-42 sur
         listaConductores.add(new Conductor("Raúl", new LatLng(40.3700, -3.8550)));
-        listaConductores.add(new Conductor("Paula", new LatLng(40.3650, -3.8600)));
-        listaConductores.add(new Conductor("Victor", new LatLng(40.3600, -3.8650)));
-        listaConductores.add(new Conductor("Cristina", new LatLng(40.3550, -3.8700)));
+        listaConductores.add(new Conductor("Victor", new LatLng(40.5600, -3.8650)));
+        listaConductores.add(new Conductor("Cristina", new LatLng(40.7550, -3.8700)));
 
 
     }
