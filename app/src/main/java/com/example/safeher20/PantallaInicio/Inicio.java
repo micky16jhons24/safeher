@@ -408,4 +408,5 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
+
 }
