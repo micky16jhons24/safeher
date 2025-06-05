@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PantallaInicio.Inicio">
+    android:layout_height="match_parent">
 
-    <!-- Mapa de Google -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -15,7 +11,6 @@
         android:clickable="false"
         android:focusable="false" />
 
-    <!-- UI flotante -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -171,5 +166,17 @@
                 android:layout_height="wrap_content"
                 android:hint="¿A dónde vas?" />
         </androidx.cardview.widget.CardView>
+
+        <!-- Icono de usuario
+        <ImageView
+            android:id="@+id/icono_usuario"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/user"
+            android:contentDescription="@string/perfil_usuario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
