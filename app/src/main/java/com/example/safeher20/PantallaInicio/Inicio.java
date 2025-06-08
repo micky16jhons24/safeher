@@ -1,6 +1,7 @@
 package com.example.safeher20.PantallaInicio;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.safeher20.ChatActivity;
+import com.example.safeher20.MainActivity;
 import com.example.safeher20.R;
 
 import com.example.safeher20.util.Conductor;
@@ -131,8 +133,22 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         findViewById(R.id.btnViajeSeguro).setOnClickListener(v -> iniciarViajeSeguro());
         findViewById(R.id.btnVerMapa).setOnClickListener(v -> centrarEnMiUbicacion());
         findViewById(R.id.btnSafeCall).setOnClickListener(v -> llamarEmergencia());
-        findViewById(R.id.btnSalirRapido).setOnClickListener(v -> salirApp());
         findViewById(R.id.btnChat).setOnClickListener(v -> startActivity(new Intent(Inicio.this, ChatActivity.class)));
+
+
+        findViewById(R.id.btnSalirRapido).setOnClickListener(v -> {
+            // Eliminar sesión
+            getSharedPreferences("user_session", Context.MODE_PRIVATE)
+                .edit()
+                .remove("email")
+                .apply();
+
+            // Volver a login
+            Intent intent = new Intent(Inicio.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finishAffinity(); // Cierra todas las actividades abiertas
+        });
     }
 
     @Override
