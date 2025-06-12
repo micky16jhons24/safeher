@@ -20,6 +20,7 @@ import com.example.safeher20.ChatActivity;
 import com.example.safeher20.R;
 
 import com.example.safeher20.util.Conductor;
+import com.example.safeher20.util.MenuLateralActivity;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -133,6 +134,10 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         findViewById(R.id.btnSafeCall).setOnClickListener(v -> llamarEmergencia());
         findViewById(R.id.btnSalirRapido).setOnClickListener(v -> salirApp());
         findViewById(R.id.btnChat).setOnClickListener(v -> startActivity(new Intent(Inicio.this, ChatActivity.class)));
+        findViewById(R.id.btnMenu).setOnClickListener(v -> {
+            startActivity(new Intent(Inicio.this, MenuLateralActivity.class));
+        });
+
     }
 
     @Override

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="24dp">
+
+    <!-- Botón X en esquina superior derecha -->
+    <TextView
+        android:id="@+id/btnCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✕"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnCerrar"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Barra arriba de Mi Cuenta -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/opcionCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mi Cuenta"
+                android:textSize="18sp"
+                android:padding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/opcionHistorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Historial"
+                android:textSize="18sp"
+                android:padding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/opcionCodigos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Códigos de Descuento"
+                android:textSize="18sp"
+                android:padding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/opcionAyuda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Soporte Técnico"
+                android:textSize="18sp"
+                android:padding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/opcionSeguridad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seguridad"
+                android:textSize="18sp"
+                android:padding="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/opcionSobre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sobre Nosotros"
+                android:textSize="18sp"
+                android:padding="12dp" />
+
+            <!-- Barra abajo del todo -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

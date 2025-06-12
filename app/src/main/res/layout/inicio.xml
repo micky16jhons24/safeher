@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,8 +20,8 @@
         <!-- Logo -->
         <ImageView
             android:id="@+id/logoImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="63dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/logo_app"
@@ -28,20 +29,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Título -->
-        <TextView
-            android:id="@+id/tituloInicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="S.A.F.E. Her"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/logoImage"
-            app:layout_constraintTop_toBottomOf="@id/logoImage" />
+        <!-- Botón de Menú -->
+
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="49dp"
+            android:layout_height="41dp"
+            android:layout_margin="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Menú"
+            android:src="@drawable/user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Botón: Viaje Seguro -->
+
+        <!-- Botón: Chat -->
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViajeSeguro"
             android:layout_width="wrap_content"
@@ -51,11 +58,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.75"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.786" />
 
-        <!-- Botón: Chat -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnChat"
             android:layout_width="wrap_content"
@@ -87,7 +92,7 @@
             app:layout_constraintVertical_bias="0.72"
             app:layout_constraintHorizontal_bias="0.05" />
 
-        <!-- Botón: Ver Mapa (Centrar ubicación) -->
+        <!-- Botón: Ver Mapa -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnVerMapa"
             android:layout_width="wrap_content"
@@ -119,7 +124,7 @@
             app:layout_constraintVertical_bias="0.6"
             app:layout_constraintHorizontal_bias="0.95" />
 
-        <!-- Recuadro para "Elige punto de partida" -->
+        <!-- Recuadro para punto de partida -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewPartida"
             android:layout_width="match_parent"
@@ -143,7 +148,7 @@
                 android:hint="Elige punto de partida" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Recuadro para "¿A dónde vas?" -->
+        <!-- Recuadro para destino -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewDestino"
             android:layout_width="match_parent"
@@ -167,16 +172,5 @@
                 android:hint="¿A dónde vas?" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Icono de usuario
-        <ImageView
-            android:id="@+id/icono_usuario"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/user"
-            android:contentDescription="@string/perfil_usuario"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
