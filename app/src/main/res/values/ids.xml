@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="rb_menos_3_min" type="id"/>
+    <item name="rb_entre_5_7_min" type="id"/>
+    <item name="rb_puedo_esperar" type="id"/>
+</resources>

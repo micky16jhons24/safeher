@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +45,7 @@ public class CuentaActivity extends AppCompatActivity {
 
     private void cargarDatosUsuaria() {
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
-        String emailGuardado = prefs.getString("email", null);  // clave usada en MainActivity
-
+        String emailGuardado = prefs.getString("email_logueado", null);
         if (emailGuardado == null) {
             Toast.makeText(this, "No hay usuaria logueada", Toast.LENGTH_SHORT).show();
             return;

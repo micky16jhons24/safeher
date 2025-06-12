@@ -23,86 +23,116 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/btnCerrar"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="-1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Opción: Mi Cuenta -->
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C9BCE0" />
+            <!-- Opción: Mi Cuenta (ahora la primera) -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
+
+            <TextView
+                android:id="@+id/opcionCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="14dp"
+                android:text="Mi Cuenta"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
 
             <!-- Opción: Historial -->
             <TextView
                 android:id="@+id/opcionHistorial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Historial"
-                android:textSize="16sp"
-                android:paddingVertical="14dp"
                 android:paddingHorizontal="8dp"
-                android:textColor="#222222" />
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C9BCE0" />
+                android:paddingVertical="14dp"
+                android:text="Historial"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
 
             <!-- Opción: Códigos de Descuento -->
             <TextView
                 android:id="@+id/opcionCodigos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Códigos de Descuento"
-                android:textSize="16sp"
-                android:paddingVertical="14dp"
                 android:paddingHorizontal="8dp"
-                android:textColor="#222222" />
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C9BCE0" />
+                android:paddingVertical="14dp"
+                android:text="Códigos de Descuento"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
 
             <!-- Opción: Soporte Técnico -->
             <TextView
                 android:id="@+id/opcionAyuda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Soporte Técnico"
-                android:textSize="16sp"
-                android:paddingVertical="14dp"
                 android:paddingHorizontal="8dp"
-                android:textColor="#222222" />
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C9BCE0" />
+                android:paddingVertical="14dp"
+                android:text="Soporte Técnico"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
 
             <!-- Opción: Seguridad -->
             <TextView
                 android:id="@+id/opcionSeguridad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Seguridad"
-                android:textSize="16sp"
-                android:paddingVertical="14dp"
                 android:paddingHorizontal="8dp"
-                android:textColor="#222222" />
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C9BCE0" />
+                android:paddingVertical="14dp"
+                android:text="Seguridad"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
 
             <!-- Opción: Sobre Nosotros -->
             <TextView
                 android:id="@+id/opcionSobre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sobre Nosotros"
-                android:textSize="16sp"
-                android:paddingVertical="14dp"
                 android:paddingHorizontal="8dp"
-                android:textColor="#222222" />
-            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#C9BCE0" />
+                android:paddingVertical="14dp"
+                android:text="Sobre Nosotros"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
 
         </LinearLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/opcionCuenta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="14dp"
-        android:text="Mi Cuenta"
-        android:textColor="#222222"
-        android:textSize="16sp" />
 </RelativeLayout>
+

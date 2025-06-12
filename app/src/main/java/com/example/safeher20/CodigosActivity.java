@@ -1,5 +1,6 @@
 package com.example.safeher20;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,6 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.example.safeher20.PantallaInicio.Inicio;
 
 public class CodigosActivity extends AppCompatActivity {
 
@@ -21,7 +25,12 @@ public class CodigosActivity extends AppCompatActivity {
         inputCodigo = findViewById(R.id.inputCodigo);
         textResultado = findViewById(R.id.textResultado);
 
-        findViewById(R.id.btnCerrar).setOnClickListener(v -> finish());
+        findViewById(R.id.btnCerrar).setOnClickListener(v -> {
+            Intent intent = new Intent(CodigosActivity.this, Inicio.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
 
         Button btnAplicar = findViewById(R.id.btnAplicarCodigo);
         btnAplicar.setOnClickListener(v -> {
@@ -36,10 +45,11 @@ public class CodigosActivity extends AppCompatActivity {
                 // Guardar el descuento para futuros viajes (puede ser SharedPreferences)
                 saveDiscount(10);
                 textResultado.setText("¡Código válido! 10% de descuento aplicado a futuros viajes.");
-                textResultado.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                textResultado.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+
             } else {
                 textResultado.setText("Código no válido. Intenta de nuevo.");
-                textResultado.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                textResultado.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
             }
         });
     }
