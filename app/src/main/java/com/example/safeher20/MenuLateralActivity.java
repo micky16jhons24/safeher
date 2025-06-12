@@ -1,5 +1,6 @@
 package com.example.safeher20;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MenuLateralActivity extends AppCompatActivity {
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +47,9 @@ public class MenuLateralActivity extends AppCompatActivity {
             // Acción Seguridad
         });
 
-        findViewById(R.id.opcionSobre).setOnClickListener(v -> {
-            // Acción Sobre
+        findViewById(R.id.opcionSobreNosotros).setOnClickListener(v -> {
+            Intent intent = new Intent(MenuLateralActivity.this, SobreNosotrosActivity.class);
+            startActivity(intent);
         });
     }
 }

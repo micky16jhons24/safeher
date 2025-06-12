@@ -117,7 +117,7 @@
 
             <!-- Opción: Sobre Nosotros -->
             <TextView
-                android:id="@+id/opcionSobre"
+                android:id="@+id/opcionSobreNosotros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="8dp"

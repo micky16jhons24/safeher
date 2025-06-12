@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#D4C7F4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <!-- Botón cerrar -->
+    <TextView
+        android:id="@+id/btnCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✕"
+        android:textSize="28sp"
+        android:textColor="#623690"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Contenido desplazable -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnCerrar"
+        android:layout_above="@id/btnAyuda"
+        android:layout_marginTop="12dp"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tituloSobreNosotros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sobre SAFEHER"
+                android:textSize="28sp"
+                android:textColor="#4B2C91"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:id="@+id/textoDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2F2F2F"
+                android:textSize="18sp"
+                android:lineSpacingExtra="6dp"
+                android:text="SAFEHER es una app diseñada para brindar transporte seguro a mujeres, con localización en tiempo real, rutas protegidas y contacto inmediato con emergencias."
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/textoObjetivo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2F2F2F"
+                android:textSize="18sp"
+                android:lineSpacingExtra="6dp"
+                android:text="Nuestro objetivo es proteger y empoderar a las usuarias, ofreciendo herramientas intuitivas y tecnología avanzada para sus desplazamientos urbanos, especialmente en horarios nocturnos."
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/textoValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2F2F2F"
+                android:textSize="18sp"
+                android:lineSpacingExtra="6dp"
+                android:text="Con SAFEHER, la seguridad y tranquilidad de las mujeres es lo primero. Estamos comprometidos con un transporte más confiable y accesible."
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Botón para ir a Ayuda -->
+    <Button
+        android:id="@+id/btnAyuda"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Ir a Soporte"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#623690"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
+        android:elevation="6dp"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>
