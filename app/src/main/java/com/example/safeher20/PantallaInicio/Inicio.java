@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -272,18 +273,43 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
         // Mostrar diálogo con info del viaje y conductor
+
         boolean esNocturnoOFestivo = false; // cambia esto según la condición real
         double tarifaPorKm = esNocturnoOFestivo ? 1.50 : 1.30;
         double bajadaBandera = 3.00;
         double precio = bajadaBandera + (distanciaKm * tarifaPorKm);
 
+// DESCUENTO
+        boolean descuentoAplicado = false;
+        double precioOriginal = precio; // Guardamos el precio original antes de aplicar descuento
+
+        if (precio <= 50.00) {
+            precio = precio * 0.90;  // Aplica 10% de descuento
+            descuentoAplicado = true;
+        }
+
+        String mensajeDescuento = "";
+
+        if (descuentoAplicado) {
+            mensajeDescuento = String.format("\n\nPrecio original: %.2f €\nPrecio con descuento: %.2f €\n¡Descuento aplicado del 10%%!",
+                    precioOriginal, precio);
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle("Viaje Seguro")
                 .setMessage(String.format(
-                        "Conductor: %s\n\nDistancia: %.1f km\nTiempo estimado: %.0f minutos\n\nTarifa: %.2f €/km\nBajada de bandera: %.2f €\n\nPrecio estimado: %.2f €",
-                        conductorAsignado.nombre, distanciaKm, tiempoMin, tarifaPorKm, bajadaBandera, precio))
+                        "Conductor: %s\n\nDistancia: %.1f km\nTiempo estimado: %.0f minutos\n\nTarifa: %.2f €/km\nBajada de bandera: %.2f €\n\nPrecio estimado: %.2f €%s",
+                        conductorAsignado.nombre, distanciaKm, tiempoMin, tarifaPorKm, bajadaBandera,
+                        descuentoAplicado ? precioOriginal : precio,
+                        mensajeDescuento))
                 .setPositiveButton("Aceptar", (dialog, which) -> dialog.dismiss())
                 .show();
+
+// Mostrar toast solo si se aplica descuento
+        if (descuentoAplicado) {
+            Toast.makeText(this, "Se ha aplicado un 10% de descuento gracias al codigo safe10", Toast.LENGTH_LONG).show();
+        }
+
 
         // Centrar cámara en ambos puntos
         LatLngBounds bounds = new LatLngBounds.Builder()

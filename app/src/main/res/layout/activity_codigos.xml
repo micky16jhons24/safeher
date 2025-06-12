@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="#D4C7F4">
+
+    <!-- Botón cerrar -->
+    <Button
+        android:id="@+id/btnCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✕"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/tituloCodigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Código de Descuento"
+        android:textSize="26sp"
+        android:textColor="#623690"
+        android:textStyle="bold"
+        android:layout_below="@id/btnCerrar"
+        android:layout_marginTop="24dp" />
+
+    <EditText
+        android:id="@+id/inputCodigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tituloCodigo"
+        android:layout_marginTop="24dp"
+        android:background="@android:drawable/edit_text"
+        android:padding="16dp"
+        android:hint="Introduce tu código"
+        android:textColor="#333333"
+        android:textSize="18sp"
+        android:inputType="text"/>
+
+    <Button
+        android:id="@+id/btnAplicarCodigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputCodigo"
+        android:layout_marginTop="16dp"
+        android:text="Aplicar Código"
+        android:background="#623690"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:padding="12dp" />
+
+    <TextView
+        android:id="@+id/textResultado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnAplicarCodigo"
+        android:layout_marginTop="16dp"
+        android:text=""
+        android:textSize="16sp"
+        android:textColor="#333333" />
+</RelativeLayout>

@@ -20,7 +20,7 @@ public class MenuLateralActivity extends AppCompatActivity {
             finish();
         });
 
-        // Otros listeners de opciones aquí...
+
         findViewById(R.id.opcionCuenta).setOnClickListener(v -> {
             Intent intent = new Intent(MenuLateralActivity.this, CuentaActivity.class);
             startActivity(intent);
@@ -32,7 +32,8 @@ public class MenuLateralActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.opcionCodigos).setOnClickListener(v -> {
-            // Acción Códigos
+            Intent intent = new Intent(MenuLateralActivity.this, CodigosActivity.class);
+            startActivity(intent);
         });
 
         findViewById(R.id.opcionAyuda).setOnClickListener(v -> {

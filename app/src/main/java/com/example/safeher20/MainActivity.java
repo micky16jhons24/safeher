@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Verificar si ya hay una sesión iniciada
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
-        String savedEmail = prefs.getString("email_logueado", null);
+        String savedEmail = prefs.getString("email", null);
         if (savedEmail != null) {
             startActivity(new Intent(this, Inicio.class));
             finish();
