@@ -22,7 +22,7 @@ import com.example.safeher20.MainActivity;
 import com.example.safeher20.R;
 
 import com.example.safeher20.util.Conductor;
-import com.example.safeher20.util.MenuLateralActivity;
+import com.example.safeher20.MenuLateralActivity;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;

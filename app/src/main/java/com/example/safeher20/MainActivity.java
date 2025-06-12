@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Verificar si ya hay una sesión iniciada
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
-        String savedEmail = prefs.getString("email", null);
+        String savedEmail = prefs.getString("email_logueado", null);
         if (savedEmail != null) {
             startActivity(new Intent(this, Inicio.class));
             finish();
@@ -105,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
                     if (usuaria == null) {
                         Toast.makeText(MainActivity.this, "Correo o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Guardar sesión
+                        // Guardar sesión con email_logueado
                         getSharedPreferences("user_session", MODE_PRIVATE)
                                 .edit()
-                                .putString("email", usuaria.getEmail())
+                                .putString("email_logueado", usuaria.getEmail())
                                 .apply();
 
                         Toast.makeText(MainActivity.this, "Bienvenida, " + usuaria.getNombre(), Toast.LENGTH_SHORT).show();

@@ -1,11 +1,9 @@
-package com.example.safeher20.util;
+package com.example.safeher20;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.safeher20.MainActivity;  // Ajusta el paquete si es necesario
-import com.example.safeher20.R;
 
 public class MenuLateralActivity extends AppCompatActivity {
 
@@ -24,8 +22,10 @@ public class MenuLateralActivity extends AppCompatActivity {
 
         // Otros listeners de opciones aquí...
         findViewById(R.id.opcionCuenta).setOnClickListener(v -> {
-            // Acción Mi Cuenta
+            Intent intent = new Intent(MenuLateralActivity.this, CuentaActivity.class);
+            startActivity(intent);
         });
+
 
         findViewById(R.id.opcionHistorial).setOnClickListener(v -> {
             // Acción Historial

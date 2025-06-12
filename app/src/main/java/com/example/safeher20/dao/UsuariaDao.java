@@ -24,4 +24,9 @@ public interface UsuariaDao {
 
     @Query("SELECT * FROM usuarias")
     List<Usuaria> getTodas();
+    @Query("SELECT * FROM usuarias ORDER BY id DESC LIMIT 1")
+    Usuaria obtenerUltimaUsuaria();
+
+
+
 }
