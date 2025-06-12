@@ -50,19 +50,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Botón: Viaje Seguro -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnViajeSeguro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Viaje Seguro"
-            app:cornerRadius="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.786" />
-
         <!-- Botón: Chat -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnChat"
@@ -128,21 +115,18 @@
             app:layout_constraintVertical_bias="0.6"
             app:layout_constraintHorizontal_bias="0.95" />
 
-        <!-- CardView punto de partida -->
+        <!-- Campo: punto de partida -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewPartida"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             app:cardBackgroundColor="#CCFFFFFF"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toTopOf="@id/cardViewDestino"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <fragment
                 android:id="@+id/autocomplete_fragment_partida"
@@ -152,21 +136,18 @@
                 android:hint="Elige punto de partida" />
         </androidx.cardview.widget.CardView>
 
-        <!-- CardView destino -->
+        <!-- Campo: destino -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewDestino"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="4dp"
             app:cardBackgroundColor="#CCFFFFFF"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnViajeSeguro"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.95">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <fragment
                 android:id="@+id/autocomplete_fragment_destino"
@@ -176,6 +157,17 @@
                 android:hint="¿A dónde vas?" />
         </androidx.cardview.widget.CardView>
 
+        <!-- Botón: Viaje Seguro (último, más abajo) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViajeSeguro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Viaje Seguro"
+            app:cornerRadius="24dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
-
