@@ -1,14 +1,16 @@
 package com.example.safeher20;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.safeher20.PantallaInicio.Inicio;
+
 public class MenuLateralActivity extends AppCompatActivity {
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +18,7 @@ public class MenuLateralActivity extends AppCompatActivity {
 
         findViewById(R.id.btnCerrar).setOnClickListener(v -> {
             // Cerrar esta actividad y volver a la pantalla de inicio
-            Intent intent = new Intent(MenuLateralActivity.this, MainActivity.class);
+            Intent intent = new Intent(MenuLateralActivity.this, Inicio.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
@@ -30,7 +32,7 @@ public class MenuLateralActivity extends AppCompatActivity {
 
 
         findViewById(R.id.opcionHistorial).setOnClickListener(v -> {
-            // Acción Historial
+
         });
 
         findViewById(R.id.opcionCodigos).setOnClickListener(v -> {
@@ -44,7 +46,8 @@ public class MenuLateralActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.opcionSeguridad).setOnClickListener(v -> {
-            // Acción Seguridad
+            Intent intent = new Intent(MenuLateralActivity.this, SeguridadActivity.class);
+            startActivity(intent);
         });
 
         findViewById(R.id.opcionSobreNosotros).setOnClickListener(v -> {

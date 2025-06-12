@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEAFD"
+    android:padding="24dp">
+
+    <!-- Botón cerrar -->
+    <Button
+        android:id="@+id/btnCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✕"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp" />
+
+    <!-- Contenido debajo del botón cerrar -->
+    <LinearLayout
+        android:id="@+id/contenidoSeguridad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/btnCerrar"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Centro de Seguridad"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#4B2C91"
+            android:layout_marginBottom="32dp" />
+
+        <Button
+            android:id="@+id/btnCompartirUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Compartir ubicación"
+            android:backgroundTint="#623690"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnLlamarEmergencia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Llamar al 112"
+            android:backgroundTint="#9D3C3C"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+</RelativeLayout>
