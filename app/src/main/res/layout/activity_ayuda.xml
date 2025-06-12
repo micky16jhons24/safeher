@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#D4C7F4">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textEncabezado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿En qué podemos ayudarte?"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#623690"
+            android:paddingBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selecciona el tipo de problema:"
+            android:textColor="#623690"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerTipoProblema"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:padding="12dp"
+            android:backgroundTint="#623690"
+            android:popupBackground="#FFFFFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Escribe tu mensaje:"
+            android:textColor="#623690"
+            android:textSize="16sp"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp" />
+
+        <EditText
+            android:id="@+id/editMensaje"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:background="@android:drawable/edit_text"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:backgroundTint="#623690"
+            android:layout_marginTop="32dp"
+            android:padding="14dp"
+            android:elevation="4dp" />
+
+    </LinearLayout>
+</ScrollView>

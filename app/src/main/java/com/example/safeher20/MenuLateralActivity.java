@@ -37,7 +37,8 @@ public class MenuLateralActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.opcionAyuda).setOnClickListener(v -> {
-            // Acción Ayuda
+            Intent intent = new Intent(MenuLateralActivity.this, AyudaActivity.class);
+            startActivity(intent);
         });
 
         findViewById(R.id.opcionSeguridad).setOnClickListener(v -> {
