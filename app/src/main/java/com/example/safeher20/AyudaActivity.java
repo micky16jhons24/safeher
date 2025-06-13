@@ -23,6 +23,9 @@ public class AyudaActivity extends AppCompatActivity {
         spinnerTipoProblema = findViewById(R.id.spinnerTipoProblema);
         editMensaje = findViewById(R.id.editMensaje);
         btnEnviar = findViewById(R.id.btnEnviar);
+        Button btnCerrar = findViewById(R.id.btnCerrar);
+
+        btnCerrar.setOnClickListener(v -> finish());
 
         // Rellenar spinnerTipoProblema con opciones
         ArrayAdapter<String> adapterProblemas = new ArrayAdapter<>(
@@ -40,9 +43,14 @@ public class AyudaActivity extends AppCompatActivity {
 
         btnEnviar.setOnClickListener(v -> {
             String problema = (String) spinnerTipoProblema.getSelectedItem();
-            String mensaje = editMensaje.getText().toString();
+            String mensaje = editMensaje.getText().toString().trim();
 
-            // Procesar el formulario aquí
+            if (mensaje.isEmpty()) {
+                Toast.makeText(this, "Por favor, escribe un mensaje.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
             Toast.makeText(this, "Formulario enviado:\nTipo: " + problema + "\nMensaje: " + mensaje, Toast.LENGTH_LONG).show();
         });
     }

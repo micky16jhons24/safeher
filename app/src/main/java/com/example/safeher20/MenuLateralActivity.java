@@ -32,7 +32,8 @@ public class MenuLateralActivity extends AppCompatActivity {
 
 
         findViewById(R.id.opcionHistorial).setOnClickListener(v -> {
-
+            Intent intent = new Intent(this, HistorialActivity.class);
+            startActivity(intent);
         });
 
         findViewById(R.id.opcionCodigos).setOnClickListener(v -> {

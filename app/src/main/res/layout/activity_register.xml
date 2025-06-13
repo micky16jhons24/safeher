@@ -23,7 +23,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Título -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,13 +43,13 @@
                 android:textColor="@android:color/black"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- Email -->
+            <!-- Email (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="Email">
+                android:hint="Email *">
 
                 <EditText
                     android:id="@+id/editTextEmail"
@@ -59,13 +58,13 @@
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Contraseña -->
+            <!-- Contraseña (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Contraseña">
+                android:hint="Contraseña *">
 
                 <EditText
                     android:id="@+id/editTextPassword"
@@ -85,13 +84,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- DNI -->
+            <!-- DNI (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="DNI">
+                android:hint="DNI *">
 
                 <EditText
                     android:id="@+id/editTextDni"
@@ -99,13 +98,13 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Nombre -->
+            <!-- Nombre (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="Nombre">
+                android:hint="Nombre *">
 
                 <EditText
                     android:id="@+id/editTextNombre"
@@ -113,13 +112,13 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Apellido -->
+            <!-- Apellido (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Apellido">
+                android:hint="Apellido *">
 
                 <EditText
                     android:id="@+id/editTextApellido"
@@ -147,7 +146,7 @@
                     android:id="@+id/radioOtro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Otro"
+                    android:text="Otro/No Binario"
                     android:layout_marginStart="16dp"/>
             </RadioGroup>
 
@@ -162,29 +161,56 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- País -->
-            <Spinner
-                android:id="@+id/spinnerPais"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- Ciudad -->
-            <Spinner
-                android:id="@+id/spinnerCiudad"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- Dirección -->
+            <!-- País (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="Dirección">
+                android:hint="País *">
+
+                <Spinner
+                    android:id="@+id/spinnerPais"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Ciudad (*) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Ciudad *">
+
+                <Spinner
+                    android:id="@+id/spinnerCiudad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Código Postal (*) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Código Postal *">
+
+                <EditText
+                    android:id="@+id/editTextCodigoPostal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Dirección (*) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Dirección *">
 
                 <EditText
                     android:id="@+id/editTextDireccion"
@@ -234,34 +260,19 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Teléfono -->
+            <!-- Teléfono (*) -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="Teléfono">
+                android:hint="Teléfono *">
 
                 <EditText
                     android:id="@+id/editTextPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Código Postal -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:hint="Código Postal">
-
-                <EditText
-                    android:id="@+id/editTextCodigoPostal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Botón Subir DNI -->
@@ -285,6 +296,7 @@
                 android:textColor="@android:color/white"
                 app:backgroundTint="#3F51B5"
                 android:layout_marginTop="16dp"/>
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

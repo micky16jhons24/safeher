@@ -159,15 +159,12 @@ public class RegisterActivity extends AppCompatActivity{
         String phoneTexto = phone.getText().toString().trim();
         String cpTexto = cp.getText().toString().trim();
         String direccionTexto = direccion.getText().toString().trim();
-        String portalTexto = portal.getText().toString().trim();
-        String pisoTexto = piso.getText().toString().trim();
-        String puertaTexto = puerta.getText().toString().trim();
         int selectedGenderId = genero.getCheckedRadioButtonId();
 
+        // Validar campos obligatorios
         if (dniTexto.isEmpty() || nombreTexto.isEmpty() || apellidoTexto.isEmpty() ||
-                phoneTexto.isEmpty() || cpTexto.isEmpty() || direccionTexto.isEmpty() ||
-                portalTexto.isEmpty() || pisoTexto.isEmpty() || puertaTexto.isEmpty()) {
-            Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show();
+                phoneTexto.isEmpty() || cpTexto.isEmpty() || direccionTexto.isEmpty()) {
+            Toast.makeText(this, "Por favor, completa todos los campos obligatorios.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -185,6 +182,7 @@ public class RegisterActivity extends AppCompatActivity{
             Toast.makeText(this, "Solo se permiten registros de mujeres.", Toast.LENGTH_LONG).show();
             return false;
         }
+
         String emailTexto = editTextEmail.getText().toString().trim();
         if (emailTexto.isEmpty()) {
             editTextEmail.setError("El correo electrónico es obligatorio");
@@ -205,10 +203,9 @@ public class RegisterActivity extends AppCompatActivity{
             return false;
         }
 
-
-
         return true;
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
