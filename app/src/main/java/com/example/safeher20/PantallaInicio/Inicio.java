@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -41,8 +40,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -53,7 +54,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
@@ -63,17 +66,26 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
 
+    // Constantes de ubicación inicial
     private final LatLng madridCentro = new LatLng(40.4168, -3.7038);
     private final LatLng defaultDestino = new LatLng(40.4180, -3.7065);
     private List<Conductor> listaConductores = new ArrayList<>();
+    private Map<Conductor, Marker> mapaConductores = new HashMap<>();
 
+    // Variables para almacenar origen y destino seleccionados
     private LatLng origenSeleccionado;
     private LatLng destinoSeleccionado;
 
+    // Nueva variable para guardar la urgencia seleccionada
     private String urgenciaSeleccionada;
     private static final int ID_MENOS_3_MIN = 1;
     private static final int ID_ENTRE_5_7_MIN = 2;
     private static final int ID_PUEDO_ESPERAR = 3;
+
+    // Variables para mover taxis
+    private Handler handlerMovimiento = new Handler();
+    private Runnable runnableMovimiento;
+    private boolean moviendoTaxis = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +94,19 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // Cargar mapa
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
+        // Inicializar Places SDK
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), "AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw");
+            Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         }
 
+        // Autocomplete origen
         AutocompleteSupportFragment autocompleteFragmentPartida = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_partida);
         if (autocompleteFragmentPartida != null) {
@@ -115,6 +130,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             });
         }
 
+        // Autocomplete destino
         AutocompleteSupportFragment autocompleteFragmentDestino = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_destino);
         if (autocompleteFragmentDestino != null) {
@@ -138,8 +154,9 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             });
         }
 
-        inicializarConductores(origenSeleccionado, true);
+        inicializarConductoresMadrid();
 
+        // Botones de acción
         findViewById(R.id.btnViajeSeguro).setOnClickListener(v -> mostrarDialogoUrgencia());
         findViewById(R.id.btnVerMapa).setOnClickListener(v -> centrarEnMiUbicacion());
         findViewById(R.id.btnSafeCall).setOnClickListener(v -> llamarEmergencia());
@@ -152,7 +169,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             startActivity(intent);
             finishAffinity();
         });
-
     }
 
     private void mostrarDialogoUrgencia() {
@@ -164,7 +180,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (destinoSeleccionado == null) {
             destinoSeleccionado = defaultDestino;
             Toast.makeText(this, "Destino por defecto seleccionado", Toast.LENGTH_SHORT).show();
-            comprobarYMostrarRuta(); // Mostrar la ruta por defecto si no hay destino aún
+            comprobarYMostrarRuta();
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -224,8 +240,10 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
 
         if (googleMap != null) googleMap.clear();
-        mostrarTaxisCercanos(origenSeleccionado);
-        dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado); // Dibuja la ruta real
+        inicializarConductoresMadrid();
+        mostrarTaxisCercanos(null);
+
+        dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado);
 
         float[] results = new float[1];
         android.location.Location.distanceBetween(
@@ -310,7 +328,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         float distanciaMetros = results[0];
         double distanciaKm = distanciaMetros / 1000.0;
 
-        boolean esNocturnoOFestivo = false; // Puedes calcularlo o pasar por parámetro
+        boolean esNocturnoOFestivo = false;
         double tarifaPorKm = esNocturnoOFestivo ? 1.5 : 1.2;
         double tarifaBase = 3.0;
         double presupuesto = tarifaBase + (tarifaPorKm * distanciaKm);
@@ -319,11 +337,13 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (descuento > 0) {
             presupuesto = presupuesto * (1 - descuento / 100.0);
         }
+
         long fechaActual = System.currentTimeMillis();
         Viaje viaje = new Viaje( urgenciaSeleccionada, conductor.getNombre(), fechaActual, presupuesto);
         List<Viaje> viajes = cargarViajesGuardados();
         viajes.add(viaje);
         guardarViajes(viajes);
+
         String mensaje = String.format("Conductor %s asignado.\nTiempo estimado de llegada: %d minutos\nPrecio: %.2f €",
                 conductor.getNombre(), tiempoEstimadoMinutos, presupuesto);
 
@@ -331,8 +351,9 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         if (googleMap != null) {
             googleMap.clear();
-            mostrarTaxisCercanos(origenSeleccionado);
-            dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado); // Dibuja la ruta real
+            inicializarConductoresMadrid();
+            mostrarTaxisCercanos(null);
+            dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado);
         }
     }
 
@@ -373,48 +394,36 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    private void mostrarTaxisCercanos(LatLng ubicacion) {
-        // Inicializamos conductores con base en la ubicación actual
-        inicializarConductores(ubicacion, true);
+    private void mostrarTaxisCercanos(LatLng unused) {
+        // Limpia el mapa de conductores y markers previos
+        if (googleMap == null) return;
+        mapaConductores.clear();
 
         for (Conductor c : listaConductores) {
-            googleMap.addMarker(new MarkerOptions()
+            Marker marker = googleMap.addMarker(new MarkerOptions()
                     .position(c.getUbicacion())
                     .title(c.getNombre())
                     .icon(bitmapDescriptorFromVector(this, R.drawable.ic_car_vector)));
+            mapaConductores.put(c, marker);
         }
+        // Arranca movimiento tras mostrar taxis
+        iniciarMovimientoTaxis();
     }
 
-    private void inicializarConductores(LatLng baseUbicacion, boolean aleatorio) {
-        if (baseUbicacion == null) {
-            Log.e("InicializarConductores", "baseUbicacion es null");
-            return;
-        }
-
-        if (listaConductores == null) {
-            listaConductores = new ArrayList<>();
-        }
-        listaConductores.clear();
-
+    private void inicializarConductoresMadrid() {
+        listaConductores = new ArrayList<>();
         String[] nombres = {"Sara", "Carlos", "María", "David", "Lucía", "Javier", "Isabel", "Andrés", "Sofía", "Miguel",
                 "Patricia", "Manuel", "Teresa", "Alberto", "Natalia", "Fernando", "César", "Daniela", "Gonzalo", "Noemí",
                 "Irene", "Mario", "Leo", "Patricia R.", "Hugo", "Clara", "Santiago", "Laura M.", "Iván", "Rosa"};
 
-        if (aleatorio) {
-            Random random = new Random();
-            for (int i = 0; i < nombres.length; i++) {
-                double latOffset = (random.nextDouble() - 0.5) * 0.02;
-                double lngOffset = (random.nextDouble() - 0.5) * 0.02;
+        Random random = new Random();
+        double latMin = 40.35, latMax = 40.50;
+        double lngMin = -3.75, lngMax = -3.68;
 
-                LatLng ubicacionAleatoria = new LatLng(
-                        baseUbicacion.latitude + latOffset,
-                        baseUbicacion.longitude + lngOffset
-                );
-
-                listaConductores.add(new Conductor(nombres[i], ubicacionAleatoria));
-            }
-        } else {
-            listaConductores.add(new Conductor("Cristina", new LatLng(40.3550, -3.8700)));
+        for (int i = 0; i < nombres.length; i++) {
+            double lat = latMin + (latMax - latMin) * random.nextDouble();
+            double lng = lngMin + (lngMax - lngMin) * random.nextDouble();
+            listaConductores.add(new Conductor(nombres[i], new LatLng(lat, lng)));
         }
     }
 
@@ -423,8 +432,10 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         googleMap = map;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14));
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setAllGesturesEnabled(true);
 
-        mostrarTaxisCercanos(madridCentro);
+        inicializarConductoresMadrid();
+        mostrarTaxisCercanos(null);
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
@@ -452,7 +463,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (json == null) {
             return new ArrayList<>();
         }
-
         Gson gson = new Gson();
         Type type = new TypeToken<List<Viaje>>(){}.getType();
         List<Viaje> viajes = gson.fromJson(json, type);
@@ -462,7 +472,8 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private void comprobarYMostrarRuta() {
         if (origenSeleccionado != null && destinoSeleccionado != null) {
             if (googleMap != null) googleMap.clear();
-            mostrarTaxisCercanos(origenSeleccionado);
+            inicializarConductoresMadrid();
+            mostrarTaxisCercanos(null);
             dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado);
         }
     }
@@ -496,5 +507,106 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 );
             }
         }).start();
+    }
+
+    // --- Movimiento de taxis por rutas realistas usando Directions API ---
+
+    private void iniciarMovimientoTaxis() {
+        detenerMovimientoTaxis(); // Detén cualquier movimiento anterior antes de arrancar uno nuevo
+        moviendoTaxis = true;
+        runnableMovimiento = new Runnable() {
+            @Override
+            public void run() {
+                moverTaxisPorRuta();
+                if (moviendoTaxis) {
+                    handlerMovimiento.postDelayed(this, 1000); // mueve cada 1 segundo
+                }
+            }
+        };
+        handlerMovimiento.post(runnableMovimiento);
+    }
+
+    private void detenerMovimientoTaxis() {
+        moviendoTaxis = false;
+        if (handlerMovimiento != null && runnableMovimiento != null) {
+            handlerMovimiento.removeCallbacks(runnableMovimiento);
+        }
+    }
+
+    private void moverTaxisPorRuta() {
+        for (Conductor c : mapaConductores.keySet()) {
+            // Si no tiene ruta o llegó a destino, asigna nuevo destino y ruta
+            if (c.getRuta() == null || c.haLlegadoADestino()) {
+                asignarNuevoDestino(c);
+                obtenerYRellenarRuta(c);
+                continue;
+            }
+            // Avanza al siguiente punto de la ruta
+            if (c.avanzarEnRuta()) {
+                Marker marker = mapaConductores.get(c);
+                if (marker != null) marker.setPosition(c.getUbicacion());
+            }
+        }
+    }
+
+    private void asignarNuevoDestino(Conductor conductor) {
+        Random random = new Random();
+        double latMin = 40.35, latMax = 40.50;
+        double lngMin = -3.75, lngMax = -3.68;
+
+        LatLng destino;
+        do {
+            double lat = latMin + (latMax - latMin) * random.nextDouble();
+            double lng = lngMin + (lngMax - lngMin) * random.nextDouble();
+            destino = new LatLng(lat, lng);
+        } while (distance(conductor.getUbicacion(), destino) < 0.005);
+
+        conductor.setDestino(destino);
+    }
+
+    private void obtenerYRellenarRuta(Conductor conductor) {
+        new Thread(() -> {
+            try {
+                String strOrigen = conductor.getUbicacion().latitude + "," + conductor.getUbicacion().longitude;
+                String strDestino = conductor.getDestino().latitude + "," + conductor.getDestino().longitude;
+                String apiKey = getString(R.string.google_maps_key);
+
+                String json = DirectionsApiHelper.getDirections(strOrigen, strDestino, apiKey);
+                List<LatLng> puntosRuta = PolylineDecoder.getPolylinePoints(json);
+
+                runOnUiThread(() -> {
+                    conductor.setRuta(puntosRuta);
+                    conductor.setIndiceRutaActual(0);
+                });
+            } catch (Exception e) {
+                // Maneja error si lo deseas
+            }
+        }).start();
+    }
+
+    private double distance(LatLng a, LatLng b) {
+        float[] results = new float[1];
+        android.location.Location.distanceBetween(a.latitude, a.longitude, b.latitude, b.longitude, results);
+        return results[0] / 1000.0; // en km
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detenerMovimientoTaxis();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detenerMovimientoTaxis();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (googleMap != null && !moviendoTaxis) {
+            iniciarMovimientoTaxis();
+        }
     }
 }
