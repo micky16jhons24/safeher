@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,10 +26,11 @@ import androidx.core.content.ContextCompat;
 import com.example.safeher20.ChatActivity;
 import com.example.safeher20.MainActivity;
 import com.example.safeher20.R;
-
 import com.example.safeher20.Viaje;
 import com.example.safeher20.util.Conductor;
 import com.example.safeher20.MenuLateralActivity;
+import com.example.safeher20.util.DirectionsApiHelper;
+import com.example.safeher20.util.PolylineDecoder;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -41,14 +43,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -63,16 +63,13 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
 
-    // Constantes de ubicación inicial
     private final LatLng madridCentro = new LatLng(40.4168, -3.7038);
     private final LatLng defaultDestino = new LatLng(40.4180, -3.7065);
     private List<Conductor> listaConductores = new ArrayList<>();
 
-    // Variables para almacenar origen y destino seleccionados
     private LatLng origenSeleccionado;
     private LatLng destinoSeleccionado;
 
-    // Nueva variable para guardar la urgencia seleccionada
     private String urgenciaSeleccionada;
     private static final int ID_MENOS_3_MIN = 1;
     private static final int ID_ENTRE_5_7_MIN = 2;
@@ -85,19 +82,16 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Cargar mapa
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
-        // Inicializar Places SDK
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), "AIzaSyDWbbbV3AFWfHMc1CB_Xd2Vhr31TCWwMLw");
         }
 
-        // Autocomplete origen
         AutocompleteSupportFragment autocompleteFragmentPartida = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_partida);
         if (autocompleteFragmentPartida != null) {
@@ -111,6 +105,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 public void onPlaceSelected(@NonNull Place place) {
                     origenSeleccionado = place.getLatLng();
                     Toast.makeText(Inicio.this, "Origen: " + place.getName(), Toast.LENGTH_SHORT).show();
+                    comprobarYMostrarRuta();
                 }
 
                 @Override
@@ -120,7 +115,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             });
         }
 
-        // Autocomplete destino
         AutocompleteSupportFragment autocompleteFragmentDestino = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_destino);
         if (autocompleteFragmentDestino != null) {
@@ -134,6 +128,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 public void onPlaceSelected(@NonNull Place place) {
                     destinoSeleccionado = place.getLatLng();
                     Toast.makeText(Inicio.this, "Destino: " + place.getName(), Toast.LENGTH_SHORT).show();
+                    comprobarYMostrarRuta();
                 }
 
                 @Override
@@ -145,8 +140,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         inicializarConductores(origenSeleccionado, true);
 
-
-        // Botones de acción
         findViewById(R.id.btnViajeSeguro).setOnClickListener(v -> mostrarDialogoUrgencia());
         findViewById(R.id.btnVerMapa).setOnClickListener(v -> centrarEnMiUbicacion());
         findViewById(R.id.btnSafeCall).setOnClickListener(v -> llamarEmergencia());
@@ -162,9 +155,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
-    // Nuevo metodo para mostrar diálogo de urgencia con radio buttons
-
-
     private void mostrarDialogoUrgencia() {
         if (origenSeleccionado == null) {
             Toast.makeText(this, "Por favor, selecciona el origen primero", Toast.LENGTH_SHORT).show();
@@ -174,6 +164,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         if (destinoSeleccionado == null) {
             destinoSeleccionado = defaultDestino;
             Toast.makeText(this, "Destino por defecto seleccionado", Toast.LENGTH_SHORT).show();
+            comprobarYMostrarRuta(); // Mostrar la ruta por defecto si no hay destino aún
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -226,7 +217,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         builder.show();
     }
 
-
     private void mostrarPresupuestoConUrgencia() {
         if (origenSeleccionado == null || destinoSeleccionado == null) {
             Toast.makeText(this, "Por favor, selecciona tanto el origen como el destino", Toast.LENGTH_SHORT).show();
@@ -235,13 +225,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         if (googleMap != null) googleMap.clear();
         mostrarTaxisCercanos(origenSeleccionado);
-
-        PolylineOptions ruta = new PolylineOptions()
-                .add(origenSeleccionado)
-                .add(destinoSeleccionado)
-                .width(8f)
-                .color(ContextCompat.getColor(this, android.R.color.black));
-        if (googleMap != null) googleMap.addPolyline(ruta);
+        dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado); // Dibuja la ruta real
 
         float[] results = new float[1];
         android.location.Location.distanceBetween(
@@ -256,10 +240,8 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         double tarifaBase = 3.0;
         double presupuesto = tarifaBase + (tarifaPorKm * distanciaKm);
 
-        // Leer descuento guardado (en porcentaje)
         int descuento = getSharedPreferences("prefsSafeher", MODE_PRIVATE).getInt("descuento", 0);
 
-        // Aplicar descuento si hay
         if (descuento > 0) {
             presupuesto = presupuesto * (1 - descuento / 100.0);
         }
@@ -277,11 +259,8 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
-
-
         builder.show();
     }
-
 
     private String textoUrgencia(String clave) {
         switch (clave) {
@@ -292,7 +271,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    // Simular búsqueda de conductor con Handler y delay random entre 5 y 10 segundos
     private void buscarConductorSimulado() {
         AlertDialog buscandoDialog = new AlertDialog.Builder(this)
                 .setTitle("Buscando conductor")
@@ -309,7 +287,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }, delay);
     }
 
-    // Asignar conductor aleatorio y mostrar mensaje con tiempo estimado
     private void asignarConductor() {
         if (listaConductores.isEmpty()) {
             Toast.makeText(this, "No hay conductores disponibles", Toast.LENGTH_SHORT).show();
@@ -317,7 +294,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
         Conductor conductor = listaConductores.get(new Random().nextInt(listaConductores.size()));
 
-        // Calcular tiempo estimado según urgencia
         int tiempoEstimadoMinutos;
         switch (urgenciaSeleccionada) {
             case "menos3": tiempoEstimadoMinutos = 3; break;
@@ -326,7 +302,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             default: tiempoEstimadoMinutos = 10;
         }
 
-        // --- Aquí calculas la distancia y precio ---
         float[] results = new float[1];
         android.location.Location.distanceBetween(
                 origenSeleccionado.latitude, origenSeleccionado.longitude,
@@ -340,37 +315,27 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         double tarifaBase = 3.0;
         double presupuesto = tarifaBase + (tarifaPorKm * distanciaKm);
 
-        // Aplicar descuento
         int descuento = getSharedPreferences("prefsSafeher", MODE_PRIVATE).getInt("descuento", 0);
         if (descuento > 0) {
             presupuesto = presupuesto * (1 - descuento / 100.0);
         }
-        // Crear viaje
         long fechaActual = System.currentTimeMillis();
         Viaje viaje = new Viaje( urgenciaSeleccionada, conductor.getNombre(), fechaActual, presupuesto);
         List<Viaje> viajes = cargarViajesGuardados();
         viajes.add(viaje);
         guardarViajes(viajes);
-        // Mostrar mensaje al usuario
         String mensaje = String.format("Conductor %s asignado.\nTiempo estimado de llegada: %d minutos\nPrecio: %.2f €",
                 conductor.getNombre(), tiempoEstimadoMinutos, presupuesto);
 
         Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
-        // Opcional: mostrar ruta y conductor en mapa
+
         if (googleMap != null) {
             googleMap.clear();
             mostrarTaxisCercanos(origenSeleccionado);
-            PolylineOptions ruta = new PolylineOptions()
-                    .add(origenSeleccionado)
-                    .add(destinoSeleccionado)
-                    .width(8f)
-                    .color(ContextCompat.getColor(this, android.R.color.black));
-            googleMap.addPolyline(ruta);
+            dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado); // Dibuja la ruta real
         }
     }
 
-
-    // Método para centrar en ubicación actual si permiso concedido
     private void centrarEnMiUbicacion() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
@@ -387,7 +352,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    // Manejo resultado permiso
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == LOCATION_PERMISSION_CODE) {
@@ -400,7 +364,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    // Simular llamada emergencia
     private void llamarEmergencia() {
         String numeroEmergencia = "tel:112";
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -410,7 +373,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    // Mostrar taxis cercanos (simulados)
     private void mostrarTaxisCercanos(LatLng ubicacion) {
         // Inicializamos conductores con base en la ubicación actual
         inicializarConductores(ubicacion, true);
@@ -423,7 +385,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    // Inicializar lista conductores con offsets para simular ubicación
     private void inicializarConductores(LatLng baseUbicacion, boolean aleatorio) {
         if (baseUbicacion == null) {
             Log.e("InicializarConductores", "baseUbicacion es null");
@@ -453,21 +414,19 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
                 listaConductores.add(new Conductor(nombres[i], ubicacionAleatoria));
             }
         } else {
-
             listaConductores.add(new Conductor("Cristina", new LatLng(40.3550, -3.8700)));
         }
     }
+
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madridCentro, 14));
         googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-        // Mostrar conductores iniciales en centro
         mostrarTaxisCercanos(madridCentro);
     }
 
-    // Para ícono vectorial personalizado en el mapa
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         if (vectorDrawable == null) return BitmapDescriptorFactory.defaultMarker();
@@ -500,5 +459,42 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         return viajes != null ? viajes : new ArrayList<>();
     }
 
+    private void comprobarYMostrarRuta() {
+        if (origenSeleccionado != null && destinoSeleccionado != null) {
+            if (googleMap != null) googleMap.clear();
+            mostrarTaxisCercanos(origenSeleccionado);
+            dibujarRutaEnMapa(origenSeleccionado, destinoSeleccionado);
+        }
+    }
 
+    public void dibujarRutaEnMapa(LatLng origen, LatLng destino) {
+        new Thread(() -> {
+            try {
+                String strOrigen = origen.latitude + "," + origen.longitude;
+                String strDestino = destino.latitude + "," + destino.longitude;
+                String apiKey = getString(R.string.google_maps_key);
+
+                String json = DirectionsApiHelper.getDirections(strOrigen, strDestino, apiKey);
+
+                List<LatLng> puntosRuta = PolylineDecoder.getPolylinePoints(json);
+
+                runOnUiThread(() -> {
+                    if (googleMap != null && puntosRuta.size() > 0) {
+                        PolylineOptions polylineOptions = new PolylineOptions()
+                                .addAll(puntosRuta)
+                                .width(10)
+                                .color(Color.BLUE);
+                        googleMap.addPolyline(polylineOptions);
+                    } else {
+                        Toast.makeText(this, "No se pudo obtener la ruta", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() ->
+                        Toast.makeText(this, "Error al obtener ruta: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+            }
+        }).start();
+    }
 }
