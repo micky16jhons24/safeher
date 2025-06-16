@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -44,18 +45,34 @@ public class SaldoActivity extends AppCompatActivity {
     }
 
     private void mostrarDialogoPayPal() {
-        // Inflar el layout del diálogo
         LayoutInflater inflater = getLayoutInflater();
         final android.view.View dialogView = inflater.inflate(R.layout.dialog_paypal_login, null);
 
         EditText inputEmail = dialogView.findViewById(R.id.inputEmail);
         EditText inputPassword = dialogView.findViewById(R.id.inputPassword);
         Button btnConfirmar = dialogView.findViewById(R.id.btnConfirmar);
+        CheckBox checkRemember = dialogView.findViewById(R.id.checkRemember);
+        Button btnCerrar = dialogView.findViewById(R.id.btnCerrar); // Nuevo botón de cierre
+
+        // Cargar el correo guardado si existe
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String savedEmail = prefs.getString("paypal_email", "");
+        boolean rememberMe = prefs.getBoolean("remember_paypal_email", false);
+
+        if (rememberMe && !savedEmail.isEmpty()) {
+            inputEmail.setText(savedEmail);
+            checkRemember.setChecked(true);
+        }
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
                 .setCancelable(true)
                 .create();
+
+        // Configurar el botón de cierre (✕)
+        btnCerrar.setOnClickListener(v -> {
+            dialog.dismiss(); // Cierra el diálogo al hacer clic
+        });
 
         btnConfirmar.setOnClickListener(v -> {
             String email = inputEmail.getText().toString().trim();
@@ -71,10 +88,18 @@ public class SaldoActivity extends AppCompatActivity {
                 return;
             }
 
-            // Aquí podrías comprobar si el email es el mismo con el que el usuario inició sesión,
-            // pero para el ejemplo validamos solo formato y que no esté vacío.
+            // Guardar el correo si "Remember Me" está activado
+            SharedPreferences.Editor editor = prefs.edit();
+            if (checkRemember.isChecked()) {
+                editor.putString("paypal_email", email);
+                editor.putBoolean("remember_paypal_email", true);
+            } else {
+                editor.remove("paypal_email");
+                editor.putBoolean("remember_paypal_email", false);
+            }
+            editor.apply();
 
-            // Si todo bien, hacemos la recarga
+            // Resto del código para procesar el pago...
             String cantidadTexto = inputCantidad.getText().toString().trim();
 
             if (cantidadTexto.isEmpty()) {
