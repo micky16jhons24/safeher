@@ -155,7 +155,20 @@
                 android:hint="¿A dónde vas?" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Botón: Viaje Seguro (último, más abajo) -->
+        <!-- Texto para mostrar el saldo disponible -->
+        <TextView
+            android:id="@+id/resumenSaldo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saldo disponible: 0.00 €"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/btnViajeSeguro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botón: Viaje Seguro  -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViajeSeguro"
             android:layout_width="0dp"

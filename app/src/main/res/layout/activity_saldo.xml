@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Botón de cierre en la esquina superior derecha -->
+    <Button
+        android:id="@+id/btnCerrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✕"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnCerrar"
+        android:paddingTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recargar Saldo"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#623690"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Introduce el importe que deseas añadir a tu cuenta y realiza el pago de forma segura con PayPal."
+                android:textSize="16sp"
+                android:textColor="#623690"
+                android:gravity="center"
+                android:layout_marginBottom="24dp" />
+
+            <EditText
+                android:id="@+id/inputCantidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ejemplo: 10.00 €"
+                android:inputType="numberDecimal"
+                android:background="@android:drawable/edit_text"
+                android:padding="14dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/resumenSaldo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saldo a recargar: 0.00 €"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:textColor="#623690"
+                android:layout_marginBottom="24dp" />
+
+            <ImageButton
+                android:id="@+id/btnPaypal"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/paypal"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Pagar con PayPal"
+                android:padding="12dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pago seguro con PayPal. Al pulsar el botón confirmarás tu transacción y el saldo será añadido a tu cuenta automáticamente."
+                android:textSize="14sp"
+                android:textColor="#623690"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

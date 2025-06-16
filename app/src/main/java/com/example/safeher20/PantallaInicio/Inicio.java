@@ -1,5 +1,7 @@
 package com.example.safeher20.PantallaInicio;
 
+
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,6 +65,10 @@ import java.util.Random;
 public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_CODE = 100;
+    private static final String PREFS_NAME = "prefsSafeher";
+    private static final String SALDO_KEY = "saldo_guardado";
+    private double saldoActual ;
+    private TextView resumenSaldo;
 
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
@@ -70,7 +77,7 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private final LatLng madridCentro = new LatLng(40.4168, -3.7038);
     private final LatLng defaultDestino = new LatLng(40.4180, -3.7065);
     private List<Conductor> listaConductores = new ArrayList<>();
-    private Map<Conductor, Marker> mapaConductores = new HashMap<>();
+    private final Map<Conductor, Marker> mapaConductores = new HashMap<>();
 
     // Variables para almacenar origen y destino seleccionados
     private LatLng origenSeleccionado;
@@ -83,9 +90,12 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
     private static final int ID_PUEDO_ESPERAR = 3;
 
     // Variables para mover taxis
-    private Handler handlerMovimiento = new Handler();
+    private final Handler handlerMovimiento = new Handler();
     private Runnable runnableMovimiento;
     private boolean moviendoTaxis = false;
+
+
+// En onCreate o método de inicialización
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +179,13 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             startActivity(intent);
             finishAffinity();
         });
+
+        resumenSaldo = findViewById(R.id.resumenSaldo);
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        saldoActual = Double.longBitsToDouble(prefs.getLong(SALDO_KEY, Double.doubleToLongBits(0.0)));
+
+        resumenSaldo.setText(String.format("Saldo disponible: %.2f €", saldoActual));
     }
 
     private void mostrarDialogoUrgencia() {
@@ -258,26 +275,55 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         double tarifaBase = 3.0;
         double presupuesto = tarifaBase + (tarifaPorKm * distanciaKm);
 
-        int descuento = getSharedPreferences("prefsSafeher", MODE_PRIVATE).getInt("descuento", 0);
+        int descuento = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getInt("descuento", 0);
 
         if (descuento > 0) {
             presupuesto = presupuesto * (1 - descuento / 100.0);
         }
 
+        // Hacer 'presupuesto' final para usar en el lambda:
+        final double presupuestoFinal = presupuesto;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Presupuesto");
 
         String mensaje = String.format("Distancia: %.2f km\nTarifa: €%.2f\nDescuento: %d%%\nUrgencia: %s\n¿Aceptar presupuesto?",
-                distanciaKm, presupuesto, descuento, textoUrgencia(urgenciaSeleccionada));
+                distanciaKm, presupuestoFinal, descuento, textoUrgencia(urgenciaSeleccionada));
         builder.setMessage(mensaje);
 
         builder.setPositiveButton("Aceptar Presupuesto", (dialog, which) -> {
-            buscarConductorSimulado();
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+            double saldoActual = Double.longBitsToDouble(prefs.getLong(SALDO_KEY, Double.doubleToLongBits(0.0)));
+
+            if (saldoActual >= presupuestoFinal) {
+                double nuevoSaldo = saldoActual - presupuestoFinal;
+                guardarSaldo(nuevoSaldo);
+                this.saldoActual = nuevoSaldo;
+                actualizarResumen();
+
+                Toast.makeText(this, "Pago realizado. Saldo actualizado.", Toast.LENGTH_LONG).show();
+
+                buscarConductorSimulado();
+            } else {
+                Toast.makeText(this, "Saldo insuficiente para aceptar el presupuesto.", Toast.LENGTH_LONG).show();
+            }
         });
 
         builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         builder.show();
+    }
+
+    private void guardarSaldo(double nuevoSaldo) {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(SALDO_KEY, Double.doubleToLongBits(nuevoSaldo));
+        editor.apply();
+    }
+
+    private void actualizarResumen() {
+        resumenSaldo.setText(String.format("Saldo disponible: %.2f €", saldoActual));
     }
 
     private String textoUrgencia(String clave) {
@@ -412,10 +458,16 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
     private void inicializarConductoresMadrid() {
         listaConductores = new ArrayList<>();
-        String[] nombres = {"Sara", "Carlos", "María", "David", "Lucía", "Javier", "Isabel", "Andrés", "Sofía", "Miguel",
-                "Patricia", "Manuel", "Teresa", "Alberto", "Natalia", "Fernando", "César", "Daniela", "Gonzalo", "Noemí",
-                "Irene", "Mario", "Leo", "Patricia R.", "Hugo", "Clara", "Santiago", "Laura M.", "Iván", "Rosa"};
-
+        String[] nombres = {
+                "Sara", "María", "Lucía", "Isabel", "Sofía",
+                "Patricia", "Teresa", "Natalia", "Daniela",
+                "Noemí", "Irene", "Patricia R.", "Clara", "Laura M.", "Rosa",
+                "Ana", "Elena", "Camila", "Valeria", "Marta",
+                "Emma", "Julia", "Paula", "Alicia", "Carla",
+                "Vera", "Adriana", "Lola", "Bianca", "Carmen",
+                "Andrea", "Jimena", "Lidia", "Nuria", "Silvia",
+                "Lorena", "Pilar", "Rebeca", "Esther", "Belén"
+        };
         Random random = new Random();
         double latMin = 40.35, latMax = 40.50;
         double lngMin = -3.75, lngMax = -3.68;
@@ -437,7 +489,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         inicializarConductoresMadrid();
         mostrarTaxisCercanos(null);
     }
-
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         if (vectorDrawable == null) return BitmapDescriptorFactory.defaultMarker();
@@ -448,7 +499,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
-
     private void guardarViajes(List<Viaje> viajes) {
         SharedPreferences prefs = getSharedPreferences("viajes_safeher", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -508,9 +558,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             }
         }).start();
     }
-
-    // --- Movimiento de taxis por rutas realistas usando Directions API ---
-
     private void iniciarMovimientoTaxis() {
         detenerMovimientoTaxis(); // Detén cualquier movimiento anterior antes de arrancar uno nuevo
         moviendoTaxis = true;
@@ -525,14 +572,12 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
         };
         handlerMovimiento.post(runnableMovimiento);
     }
-
     private void detenerMovimientoTaxis() {
         moviendoTaxis = false;
         if (handlerMovimiento != null && runnableMovimiento != null) {
             handlerMovimiento.removeCallbacks(runnableMovimiento);
         }
     }
-
     private void moverTaxisPorRuta() {
         for (Conductor c : mapaConductores.keySet()) {
             // Si no tiene ruta o llegó a destino, asigna nuevo destino y ruta
@@ -548,7 +593,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             }
         }
     }
-
     private void asignarNuevoDestino(Conductor conductor) {
         Random random = new Random();
         double latMin = 40.35, latMax = 40.50;
@@ -563,7 +607,6 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
 
         conductor.setDestino(destino);
     }
-
     private void obtenerYRellenarRuta(Conductor conductor) {
         new Thread(() -> {
             try {
@@ -583,25 +626,21 @@ public class Inicio extends AppCompatActivity implements OnMapReadyCallback {
             }
         }).start();
     }
-
     private double distance(LatLng a, LatLng b) {
         float[] results = new float[1];
         android.location.Location.distanceBetween(a.latitude, a.longitude, b.latitude, b.longitude, results);
         return results[0] / 1000.0; // en km
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         detenerMovimientoTaxis();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         detenerMovimientoTaxis();
     }
-
     @Override
     protected void onResume() {
         super.onResume();

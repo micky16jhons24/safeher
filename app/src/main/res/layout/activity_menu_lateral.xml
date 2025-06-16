@@ -5,7 +5,6 @@
     android:background="#E9E0FF"
     android:padding="16dp">
 
-    <!-- Botón Cerrar en esquina superior derecha -->
     <TextView
         android:id="@+id/btnCerrar"
         android:layout_width="wrap_content"
@@ -30,7 +29,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Opción: Mi Cuenta (ahora la primera) -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -51,7 +49,21 @@
                 android:layout_height="1dp"
                 android:background="#C9BCE0" />
 
-            <!-- Opción: Historial -->
+            <TextView
+                android:id="@+id/opcionSaldo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="14dp"
+                android:text="Añadir Saldo"
+                android:textColor="#222222"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C9BCE0" />
+
             <TextView
                 android:id="@+id/opcionHistorial"
                 android:layout_width="match_parent"
@@ -67,7 +79,6 @@
                 android:layout_height="1dp"
                 android:background="#C9BCE0" />
 
-            <!-- Opción: Códigos de Descuento -->
             <TextView
                 android:id="@+id/opcionCodigos"
                 android:layout_width="match_parent"
@@ -83,7 +94,6 @@
                 android:layout_height="1dp"
                 android:background="#C9BCE0" />
 
-            <!-- Opción: Soporte Técnico -->
             <TextView
                 android:id="@+id/opcionAyuda"
                 android:layout_width="match_parent"
@@ -99,7 +109,6 @@
                 android:layout_height="1dp"
                 android:background="#C9BCE0" />
 
-            <!-- Opción: Seguridad -->
             <TextView
                 android:id="@+id/opcionSeguridad"
                 android:layout_width="match_parent"
@@ -115,7 +124,6 @@
                 android:layout_height="1dp"
                 android:background="#C9BCE0" />
 
-            <!-- Opción: Sobre Nosotros -->
             <TextView
                 android:id="@+id/opcionSobreNosotros"
                 android:layout_width="match_parent"
@@ -135,4 +143,3 @@
     </ScrollView>
 
 </RelativeLayout>
-

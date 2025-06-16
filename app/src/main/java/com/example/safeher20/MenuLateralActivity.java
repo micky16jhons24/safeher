@@ -29,6 +29,10 @@ public class MenuLateralActivity extends AppCompatActivity {
             Intent intent = new Intent(MenuLateralActivity.this, CuentaActivity.class);
             startActivity(intent);
         });
+        findViewById(R.id.opcionSaldo).setOnClickListener(v -> {
+            Intent intent = new Intent(MenuLateralActivity.this, SaldoActivity.class);
+            startActivity(intent);
+        });
 
 
         findViewById(R.id.opcionHistorial).setOnClickListener(v -> {

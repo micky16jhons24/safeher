@@ -1,6 +1,6 @@
 package com.example.safeher20;
 
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.safeher20.PantallaInicio.Inicio;
+
 import com.example.safeher20.db.AppDatabase;
 import com.example.safeher20.model.Usuaria;
 
@@ -36,11 +36,7 @@ public class CuentaActivity extends AppCompatActivity {
         cargarDatosUsuaria();
 
         Button btnCerrar = findViewById(R.id.btnCerrar);
-        btnCerrar.setOnClickListener(v -> {
-            startActivity(new Intent(CuentaActivity.this, Inicio.class));
-            finish();
-
-    });
+        btnCerrar.setOnClickListener(v -> finish());
     }
 
     private void cargarDatosUsuaria() {
